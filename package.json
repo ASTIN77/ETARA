@@ -1,0 +1,25 @@
+{
+  "name": "tm470",
+  "version": "1.0.0",
+  "description": "TM470 Project - A Job Ticketing System got Gas AMR Faults",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Andrew Tinsley",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.5.7",
+    "express": "^4.16.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ASTIN77/TM470.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ASTIN77/TM470/issues"
+  },
+  "homepage": "https://github.com/ASTIN77/TM470#readme"
+}

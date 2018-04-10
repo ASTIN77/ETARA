@@ -1,0 +1,182 @@
+body, html {
+    height: 100%;
+}
+
+.container {
+    background-color: #1B2B45;
+}
+
+.navbar {
+    background-color: #1B2B45;
+    color: #fff;
+}
+
+.nav.navbar-brand {
+    text-align: center;
+}
+
+.nav .navbar-brand li a{
+    padding-top: 25px;
+}
+.nav a.navbar-brand, .nav.navbar-nav li a {
+   color: #fff;
+   font-weight: bold;
+ }
+
+.nav a.navbar-brand:hover, .nav.navbar-nav li a:hover {
+   color: #fff;
+   background-color: gray;
+   border-radius: 20px;
+   font-weight: bold;
+ }
+ 
+.nav a.navbar-brand:visited, .nav.navbar-nav li a:visited {
+    text-decoration: none;
+    list-style-type: none;
+}
+
+nav .navlink {
+    color: #000;
+}
+
+nav li {
+    padding: 10px;
+}
+
+/* Job Box stlying */
+
+.boxDialog {
+	overflow: auto;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,0.8);
+	z-index: 99999;
+	opacity: 0;
+	-webkit-transition: opacity 600ms ease-in;
+	-moz-transition: opacity 600ms ease-in;
+	transition: opacity 600ms ease-in;
+	pointer-events: none;
+	
+}
+
+.boxDialog:target {
+	opacity:1;
+	pointer-events: auto;
+}
+
+.boxDialog section {
+	width: 60%;
+	position: relative;
+	overflow: hidden;
+	margin: 8% auto;
+	padding: 30px 20px 20px 20px;
+	border-radius: 10px;
+	background: #fff;
+	background: -moz-linear-gradient(#fff, #999);
+	background: -webkit-linear-gradient(#fff, #999);
+	background: -o-linear-gradient(#fff, #999);
+}
+
+.boxDialog section p, h2, h3, h4, h5, legend  {
+	text-align: center;
+}
+.boxDialog a {
+	text-decoration: none;
+	list-style-type: none;
+	color: white;
+}
+
+.close {
+	background: #FF0000;
+	color: #FFFFFF;
+	line-height: 25px;
+	position: absolute;
+	right: -12px;
+	text-align: center;
+	top: -10px;
+	width: 24px;
+	text-decoration: none;
+	font-weight: bold;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+	-moz-box-shadow: 1px 1px 3px #000;
+	-webkit-box-shadow: 1px 1px 3px #000;
+	box-shadow: 1px 1px 3px #000;
+}
+
+.siteDetails, .assetDetails, .visitSave {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 1fr;
+}
+
+
+
+.divider {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    font-size: 1.5rem;
+	width: 100%;
+}
+
+.divider input {
+	position: relative;
+	margin-left: 8em;
+	border-radius: 2px;
+
+}
+
+.divider label {
+    position :absolute;
+
+}
+
+.visitBoxes {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.visitBoxes input {
+	margin: 10px 10px;
+	transform:scale(1.5);
+}
+
+.visitNotes {
+	
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.visitNotes textarea {
+	width: 95%;
+}
+
+.buttonSize {
+	width: 50%;
+	display: flex;
+	flex-direction: row;
+	align-self: flex-end;
+	justify-content: center;
+	margin-top: 10px;
+}
+
+#searchJob {
+	width: 60%;
+	margin: 100px auto;
+	border-radius: 20px;
+
+}
+
+.searchDisplay {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+
