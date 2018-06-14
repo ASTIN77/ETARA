@@ -20,7 +20,10 @@ var FaultSchema = new mongoose.Schema({
             id: {type: mongoose.Schema.Types.ObjectId, ref: "User" },
             username: String
             },
-        faultNotes: String
+        faultNotes: [{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Notes"
+   }]
 
     });
     
