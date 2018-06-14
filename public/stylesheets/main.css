@@ -2,7 +2,7 @@ body, html {
     height: 100%;
 }
 
-.container {
+.dmHeader {
     background-color: #1B2B45;
 }
 
@@ -11,26 +11,27 @@ body, html {
     color: #fff;
 }
 
-.nav.navbar-brand {
+.nav.navbar-brand, .nav.navbar-brand i {
     text-align: center;
 }
 
-.nav .navbar-brand li a{
-    padding-top: 25px;
-}
-.nav a.navbar-brand, .nav.navbar-nav li a {
+.nav a.navbar-brand, .nav.navbar-nav li, .nav.navbar-nav li a {
    color: #fff;
-   font-weight: bold;
- }
-
-.nav a.navbar-brand:hover, .nav.navbar-nav li a:hover {
-   color: #fff;
-   background-color: gray;
-   border-radius: 20px;
    font-weight: bold;
  }
  
-.nav a.navbar-brand:visited, .nav.navbar-nav li a:visited {
+.navbar-default .navbar-brand {
+	color: #fff;
+	margin-top: 8px;
+}
+
+a.navbar-brand:hover, .nav.navbar-nav li a:hover {
+   color: #fff;
+   background-color: gray;
+   border-radius: 20px;
+ }
+ 
+a.navbar-brand:visited, .nav.navbar-nav li a:visited {
     text-decoration: none;
     list-style-type: none;
 }
@@ -43,7 +44,17 @@ nav li {
     padding: 10px;
 }
 
-/* Job Box stlying */
+.boardMessages {
+	padding-top: 100px;
+}
+
+
+/* Job Box styling */
+
+.jobdetails {
+	margin: 0;
+	padding: 0;
+}
 
 .boxDialog {
 	overflow: auto;
@@ -53,24 +64,19 @@ nav li {
 	bottom: 0;
 	left: 0;
 	background: rgba(0,0,0,0.8);
-	z-index: 99999;
 	opacity: 0;
 	-webkit-transition: opacity 600ms ease-in;
 	-moz-transition: opacity 600ms ease-in;
+	-o-transition: opacity 600ms ease-in;
 	transition: opacity 600ms ease-in;
-	pointer-events: none;
 	
 }
 
-.boxDialog:target {
-	opacity:1;
-	pointer-events: auto;
-}
 
 .boxDialog section {
 	width: 60%;
 	position: relative;
-	overflow: hidden;
+	overflow: auto;
 	margin: 8% auto;
 	padding: 30px 20px 20px 20px;
 	border-radius: 10px;
@@ -93,11 +99,12 @@ nav li {
 	background: #FF0000;
 	color: #FFFFFF;
 	line-height: 25px;
-	position: absolute;
-	right: -12px;
+	position: relative;
 	text-align: center;
-	top: -10px;
+	top: -25px;
+	right: -15px;
 	width: 24px;
+	z-index: 5;
 	text-decoration: none;
 	font-weight: bold;
 	-webkit-border-radius: 12px;
@@ -108,12 +115,14 @@ nav li {
 	box-shadow: 1px 1px 3px #000;
 }
 
-.siteDetails, .assetDetails, .visitSave {
+.siteDetails, .assetDetails, .visitSave, .updateMprn {
     display: grid;
     grid-template-columns: 2fr 2fr 2fr 1fr;
 }
 
-
+.searchHeader {
+	padding-bottom: 20px;
+}
 
 .divider {
     display: flex;
@@ -126,12 +135,19 @@ nav li {
 .divider input {
 	position: relative;
 	margin-left: 8em;
+	padding-left: 5px;
 	border-radius: 2px;
 
 }
 
+.divider input[type="text"]:disabled {
+	background-color: lightgray;
+	
+}
+
 .divider label {
     position :absolute;
+    margin-left: 5px;
 
 }
 
@@ -151,6 +167,15 @@ nav li {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
+	padding: 10px 0;
+}
+
+.centerInputs {
+	
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
 }
 
 .visitNotes textarea {
@@ -166,17 +191,72 @@ nav li {
 	margin-top: 10px;
 }
 
-#searchJob {
+.btn.buttonCenter {
+
+	display: block;
+	margin: 10px auto;
 	width: 60%;
-	margin: 100px auto;
+	background-color: #1B2B45;
+	color: #fff;
+}
+
+.btn.buttonCenter:hover {
+	color: #fff;
+	background-color: #888;
+}
+
+.btn.buttonCenter:focus {
+	border: 1px solid #1B2B45;
+}
+
+
+.boxed {
+	width: 60%;
+	margin: 25px auto;
 	border-radius: 20px;
 
 }
 
-.searchDisplay {
+.boxDisplay {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
+.resultsGrid {
+	display: grid;
+	align-items: center;
+	text-align: center;
+	font-size: 1.75rem;
+	
+}
 
+.resultsHeader {
+	background-color: #1B2B45;
+	color: #fff;
+	margin: 0px 50px;
+	padding: 0px;
+	
+}
+
+.resultsBorder {
+	border: 1px solid black;
+	margin: 1px 50px;
+}
+
+.pull-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 20px 50px;
+}
+
+.pull-right .btn {
+	margin: 5px 5px;
+}
+
+@media only screen and (max-width: 1600px) {
+    .boxDialog section {
+        width: 75%;
+    }
+}

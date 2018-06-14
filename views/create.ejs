@@ -1,0 +1,81 @@
+<% include partials/header %>
+
+    <!-- Display New Job Box -->
+
+    
+    <section id="newJob" class="boxDialog">
+        <section class="jobDetails">
+            <a href="/" title="Close" class="close">X</a>
+            <form action="/tickets/new/create" method="post">
+                <div class="siteDetails">
+                    <div class="divider">
+                        <div class="form-group"><label for="jobRef">Job Ref</label> <input type="text" name="jobRef" disabled /></div>
+                        <div class="form-group"><label for="mprn">MPRN</label> <input type="text" name="mprn" value="<%= mprn.mprNo %>" /></div>
+                        <div class="form-group"><label for="supplier">Supplier</label> <input type="text" name="supplier" value="<%- mprn.supplier %>" /></div>
+                    </div>
+                    <div class="divider">
+                        <div class="form-group"><label for="siteName">Site Name</label> <input type="text" name="siteName" value="<%= mprn.siteName %>" /></div>
+                            <div class="form-group"><label for="buildingNo">Building No</label> <input type="text" name="buildingNo" value="<%= mprn.buildingNo %>" /></div>
+                            <div class="form-group"><label for="streetAddress">Street (Line 1)</label> <input type="text" name="streetAddress1" value="<%= mprn.streetAddress %>" /></div>
+                            <div class="form-group"><label for="streetAddress2">Street (Line 2)</label><input type="text" name="streetAddress2" value="<%= mprn.secondAddress %>" /></div>
+                        </div>
+                        <div class="divider">
+                            <div class="form-group"><label for="town">Town/City</label><input type="text" name="townCity" value="<%= mprn.townCity %>" /></div>
+                            <div class="form-group"><label for="postCode">Post Code</label><input type="text" name="postCode" value="<%= mprn.postCode %>" /></div>
+                            <div class="form-group"><label for="siteContact">Site Contact</label><input type="text" name="siteContact" value="<%= mprn.siteContactName %>" /></div>
+                            <div class="form-group"><label for="contactNo">Contact No.</label><input type="text" name="contactNo" value="<%= mprn.siteContactNo %>" /></div>
+                        </div> 
+                            <div class="divider">
+                            <button class="btn btn-sm btn-warning buttonSize">Unlock</button>
+                            <button class="btn btn-sm btn-danger buttonSize">Delete</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="assetDetails">
+                        <div class="divider">
+                        <div class="form-group"><label for="msn">Meter Serial No</label><input type="text" name="msn" value="<%= mprn.msn %>" /></div>
+                        <div class="form-group"><label for="meterModel">Meter Model</label><input type="text" name="meterModel" value="<%= mprn.meterModel %>" /></div>
+                        <div class="form-group"><label for="meterMake">Meter Make</label><input type="text" name="meterMake" value="<%= mprn.meterMake %>" /></div>
+                    </div>
+                    <div class="divider">
+                        <div class="form-group"><label for="meterType">Meter Type</label><input type="text" name="meterType" value="<%= mprn.meterType %>" /></div>
+                        <div class="form-group"><label for="admSerial">ADM Serial</label><input type="text" name="admSerial" value="<%= mprn.admSerial %>" /></div>
+                        <div class="form-group"><label for="admImei">ADM IMEI</label><input type="text" name="admImei" value="<%= mprn.admImei %>" /></div>
+                    </div>
+                    <div class="divider">
+                        <div class="form-group"><label for="meterRead">Meter Read</label><input type="text" name="meterRead" /></div>
+                        <% if(!currentUser) { %>
+                            <div class="form-group"><label for="user">User</label><input type="text" name="user" /></div>
+                        <% } else { %>
+                            <div class="form-group"><label for="user">User</label><input type="text" name="user" value="<%= currentUser.username %>" /></div>
+                        <% } %>
+                    </div>
+                </div>
+                <hr>
+                <div class="visitDetails">
+                    <div class="visitBoxes">
+                        <div class="form-group">
+                            <label>Visit Category: </label>
+                            <input id="signal" type="radio" name="faultCat" value="Signal" /><label for="signal">Signal</label>
+                            <input id="read-escalate" type="radio" name="faultCat" value="Read / Escalate" /><label for="read-escalate">Read/Escalate</label>
+                            <input id="read-required" type="radio" name="faultCat" value="Read Required"/><label for="read-required">Read Required</label>
+                            <input id="install" type="radio" name="faultCat" value="Install"/><label for="install">Install</label>
+                            <input id="removal" type="radio" name="faultCat" value="Removal"/><label for="removal">Removal</label>
+                        </div>
+                    </div>
+                    <div class="visitNotes">
+                        <label for="faultNotes">Notes: </label><textarea id="faultNotes" name="faultNotes" rows="8"></textarea>
+                    </div>
+                    <div class="visitSave">
+                        <div class="divider"></div>
+                        <div class="divider"></div>
+                        <div class="divider"></div>
+                        <div class="divider">
+                            <button class="btn btn-lg btn-success buttonSize">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>  
+    </section>
+    <% include partials/footer %>

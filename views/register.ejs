@@ -1,0 +1,24 @@
+<% include partials/header %>
+
+    <!-- Display Job Search Box -->
+    
+    <div class="jumbotron boxed">
+        <h2>Register</h2>
+        <div class="boxDisplay">
+                    <form action="/register" method="POST">
+                        <section class="divider">
+                            <div class="form-group"><label>First Name: </label> <input type="text" name="firstName" /></div>
+                            <div class="form-group"><label>Surname: </label> <input type="text" name="lastName" /></div>
+                            <div class="form-group"><label>Username: </label> <input type="text" name="username" /></div>
+                            <div class="form-group"><label>Password: </label> <input type="password" name="password" /></div>
+                            <div class="form-group"><label>Email Address: </label> <input type="email" name="email" /></div>
+                            <div class="form-group"><label>Administrator? </label> <input type="checkbox" name="isAdmin" value="false" onchange="this.value=this.checked" /></div>
+                            <div class="form-group"><label>Manager? </label> <input type="checkbox" name="isManager" value="false" onchange="this.value=this.checked"/></div>
+                            <button class="btn btn-lg buttonCenter">Register</button>
+                        </section>
+                    </form>
+        </div>
+    </div>
+
+
+<% include partials/footer %>

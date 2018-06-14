@@ -1,0 +1,31 @@
+<% include partials/header %>
+
+
+    <div class="jumbotron boxed">
+        <div class="resultsGrid">
+                <div class="resultsHeader">
+                    <div class="row">
+                        <div class="col-md-3">Job Ref</div>
+                        <div class="col-md-3">Mprn</div>
+                        <div class="col-md-3">Fault Category</div>
+                        <div class="col-md-3">Status</div>
+                    </div>
+                </div>
+            <% faults.forEach(function(results){ %>
+                <div class="row resultsBorder">
+                        <div class="col-md-3"><a href="/search/<%= results._id %>"><%=results.jobRef %></a></div>
+                        <div class="col-md-3"><%=results.mprNo %></div>
+                        <div class="col-md-3"><%= results.faultCat %></div>
+                        <div class="col-md-3"><%= results.status %></div>
+                </div>
+
+            <% }) %>
+        </div>
+        <div class="row">
+            <a class = "btn btn-danger btn-lg pull-right" href="/">Back</a>
+        </div>
+    </div>
+
+
+
+<% include partials/footer %>

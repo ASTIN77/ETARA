@@ -1,0 +1,10 @@
+{
+  "env": {
+    "browser": 1
+  },
+ 
+  "globals": {
+    "angular": 1
+    "$": 1
+  }
+}

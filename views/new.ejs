@@ -1,0 +1,17 @@
+    <% include partials/header %>
+    
+    <!-- Display New Job Box -->
+    
+    <div class="jumbotron boxed">
+    <form action="/tickets/mprn" method="POST">
+        <div class="boxDisplay">
+        <h2>Enter MPRN:</h2>
+            <section class="centerInputs">
+                <div class="form-group"><input type="text" name="mprn" /></div>
+            </section>
+            <button class="btn btn-lg buttonCenter">Continue</button>
+        </form>
+        </div>
+    </div>
+    
+    <% include partials/footer %>
