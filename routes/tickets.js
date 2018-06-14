@@ -1,20 +1,10 @@
 const   express             =       require("express"),
         router              =       express.Router({mergeParams: true}),
-        methodOverride      =       require('method-override'),
         Fault               =       require("../models/fault"),
         Mprn                =       require("../models/mprn"),
         middleware          =       require("../middleware/middleware");
         
-router.use(methodOverride("_method")),
         
-
-
-// EDIT TICKET - POST ROUTE
-    
-
-
-
-
 // CREATE NEW TICKET - GET ROUTE
 
 router.get("/", middleware.isLoggedIn, function (req,res){
@@ -29,14 +19,20 @@ router.post ("/mprn", middleware.isLoggedIn, function(req,res) {
     var query = {'mprNo': req.body.mprn};
 
     Mprn.findOne(query, function(err, foundMprn) {
-        if (err) {
-                req.flash("error", "Please neter a valid mprn!");
-                res.redirect("new");
+        if(err){
+                    req.flash("error", "Something went wrong. Please contact the System Administrator");
+                    res.redirect("/tickets/");
+                    
                 } else {
-                    res.render("create", {mprn: foundMprn});
-                    }
-        });
-});
+                        if (!foundMprn) {
+                            req.flash("error", "Please enter a valid mprn!");
+                            res.redirect("/tickets/");
+                        } else {
+                                res.render("create", {mprn: foundMprn});
+                        }
+                }
+            });
+    });
 
 
 // CREATE NEW TICKET - POST ROUTE
@@ -69,6 +65,9 @@ router.post("/new/create", middleware.isLoggedIn, function(req,res){
         });
     });
     
+ 
+ // EDIT TICKET - POST ROUTE
+ 
  router.put("/:id", middleware.isLoggedIn, function(req,res){
 
         //  The following line of code sanitizes the visit notes section 
@@ -95,6 +94,4 @@ router.post("/new/create", middleware.isLoggedIn, function(req,res){
     });
 });   
     
-
-
 module.exports = router;

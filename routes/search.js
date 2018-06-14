@@ -7,41 +7,48 @@ const   express             =       require("express"),
 
 router.post("/", middleware.isLoggedIn, function(req,res){
 
-    res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-        var ticket = req.body.ticketRef, mprn = req.body.mprnRef;
-        var ticketQuery = {'jobRef': ticket}, mprnQuery = {'mprNo': mprn};
+    var ticket = req.body.ticketRef, mprn = req.body.mprnRef;
+    var ticketQuery = {'jobRef': ticket}, mprnQuery = {'mprNo': mprn};
         
         if (ticket.length) { // If ticket input field is not empty/undefined
         
             Fault.findOne(ticketQuery, function(err, foundFault){
-                if (err) {
-                    req.flash("error", "SMSDM Ticket Reference Not Found!");
-                    res.redirect("index");
+                
+                if(err) {
+                        req.flash("error", "Something went wrong. Please contact the System Administrator.");
+                        res.redirect("/");
                 } else {
-                        res.redirect("/search/" + foundFault._id);
-                    
+                    if (!foundFault) {
+                        req.flash("error", "SMSDM Ticket Reference Not Found!");
+                        res.redirect("/");
+                    } else {
+                            res.redirect("/search/" + foundFault._id);
+                        
+                        }
                     }
-            });
+                });
             
-        } else {
-            if (mprn) {
-            Fault.find(mprnQuery, function(err, foundMprn){
-                if (err){
-                    req.flash("error", "MPRN not found. Please provide a valid MPRN.");
-                    res.redirect("index");
                 } else {
-                    res.render("results", {faults: foundMprn});
-                }
-            });
-
-        } 
-   
-        }
-           
+                    if (mprn) {
+                            Fault.find(mprnQuery, function(err, foundMprn){
+                                if(err){
+                                    req.flash("error", "Something went wrong. Please contact the System Administrator.");
+                                    res.redirect("/");
+                                } else {
+                                if (!foundMprn.length){
+                                    req.flash("error", "MPRN not found. Please provide a valid MPRN.");
+                                    res.redirect("/");
+                                    } else {
+                                        res.render("results", {faults: foundMprn});
+                                    }
+                                }
+                            });
+                
+                        } 
+                    }
 });
 
 // SHOW FAULT TICKET ROUTE
-
 
 router.get("/:id", middleware.isLoggedIn, function(req, res) {
     
@@ -59,8 +66,6 @@ router.get("/:id", middleware.isLoggedIn, function(req, res) {
                 req.flash("error", "Please neter a valid mprn!");
                 res.redirect("back");
                 } else {
-
-                    var results = {mprn: foundMprn, fault: foundFault};
                     res.render("show", {fault: foundFault, mprn: foundMprn} );
                     }
             });
@@ -70,8 +75,5 @@ router.get("/:id", middleware.isLoggedIn, function(req, res) {
     });
     
 });
-
-
-
 
 module.exports = router;
