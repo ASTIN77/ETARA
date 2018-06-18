@@ -1,6 +1,6 @@
 const mongoose            =     require("mongoose"),
       AutoIncrement       =     require('mongoose-sequence')(mongoose);
-/*var passportLocalMongoose =     require("passport-local-mongoose");*/
+
 
 var date = Date.now();
 var newSla = new Date(date);
@@ -20,10 +20,9 @@ var FaultSchema = new mongoose.Schema({
             id: {type: mongoose.Schema.Types.ObjectId, ref: "User" },
             username: String
             },
-        faultNotes: [{
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Notes"
-   }]
+        comments: [{
+                type: mongoose.Schema.Types.ObjectId, ref: "Comment"
+                }]
 
     });
     
