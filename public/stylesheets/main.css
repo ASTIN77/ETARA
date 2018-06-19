@@ -193,6 +193,10 @@ legend {
 	align-items: center;
 }
 
+.notesMargin {
+	margin-left: 28px;
+}
+
 .visitComments {
 
 	background: #fff;
@@ -289,9 +293,7 @@ legend {
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
-	align-self: flex-end;
-	width: 30%;
-	/*margin: 10px 30px;*/
+	margin: 10px 30px;
 }
 
 .pull-right-buttons .btn {
