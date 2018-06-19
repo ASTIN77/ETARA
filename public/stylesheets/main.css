@@ -194,16 +194,21 @@ legend {
 }
 
 .visitComments {
+
 	background: #fff;
-	overflow: hidden;
+	max-height: 250px;
 	margin: 10px auto;
 	width: 95%;
-	border-radius: 20px;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
-.visitComments p {
+.visitComments i {
+	margin: 10px 10px;
+}
+
+.visitComments.text {
 	border-radius: 20px;
-	background-color: #E8E8E8;
 	margin: 10px 30px;
 	padding: 5px 10px;
 }
@@ -284,10 +289,12 @@ legend {
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
-	margin: 10px 30px;
+	align-self: flex-end;
+	width: 30%;
+	/*margin: 10px 30px;*/
 }
 
-.pull-right .btn {
+.pull-right-buttons .btn {
 	margin: 5px 5px;
 }
 
