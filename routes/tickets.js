@@ -2,6 +2,7 @@ const   express             =       require("express"),
         router              =       express.Router({mergeParams: true}),
         Fault               =       require("../models/fault"),
         Mprn                =       require("../models/mprn"),
+        Comment                =       require("../models/comment"),
         middleware          =       require("../middleware/middleware");
         
         
@@ -41,31 +42,52 @@ router.post("/new/create", middleware.isLoggedIn, function(req,res){
     
     //  The following line of code sanitizes the visit notes section 
     //  to remove any scripts that a user may inject
-        req.body.faultNotes = req.sanitize(req.body.faultNotes);
-        var mprn = req.body.mprn, faultCat = req.body.faultCat, notes = req.body.faultNotes, meterRead = req.body.meterRead;
+        req.body.comment.text = req.sanitize(req.body.comment.text);
+        var mprn = req.body.mprn, faultCat = req.body.faultCat, meterRead = req.body.meterRead;
         var dmAuthor = {
                         id: req.user._id,
                         username: req.user.username
                 };
     
         var newFault = {mprNo: mprn, 
-                    meterRead: meterRead, faultCat: faultCat, faultNotes: notes, dmAuthor: dmAuthor};
-
+                    meterRead: meterRead, faultCat: faultCat, dmAuthor: dmAuthor};
+                    
     // Create New Fault Ticket
     
-        Fault.create(newFault, function(err, fault){
+        Fault.create(newFault, function(err, newFault){
             if(err){
-            req.flash("error", err.message);
+            req.flash("error", "Oops, Error Creating New Ticket. Please request assistance from your system administrator.");
             res.render("index");
             } else {
                 
-                req.flash("success", "Fault Ticket: " + fault.jobRef + " successfully created.");
-                res.redirect("/");
-            }
-        });
-    });
+                // Create a new Comment
+                // and add to the Fault Ticket
+                
+                Comment.create(req.body.comment, function(err, comment){
+                if(err){
+                    req.flash("error", err.message);
+                    res.redirect("/");
+                    console.log(err);
+                } else {
+                    comment.dmAuthor.id = req.user._id;
+                    comment.dmAuthor.username = req.user.username;
+                    //save comment
+                    comment.save();
+                    // Push comments to the newly created Fault & Save
+                    newFault.comments.push(comment);
+                    newFault.save(); // Save the fault with the fault note referenced
+                    req.flash("success", "Fault Ticket SMSDM: " + newFault.jobRef + " successfully created.");
+                    res.redirect("/");
+                   }
+
+                });
+                    }
+            });
+                
     
- 
+    
+});
+
  // EDIT TICKET - POST ROUTE
  
  router.put("/:id", middleware.isLoggedIn, function(req,res){
@@ -73,25 +95,41 @@ router.post("/new/create", middleware.isLoggedIn, function(req,res){
         //  The following line of code sanitizes the visit notes section 
         //  to remove any scripts that a user may inject
         
-        req.body.faultNotesUpdated = req.sanitize(req.body.faultNotesUpdated);
-        var updatedNotes = req.body.fault.faultNotes + '&#10' +req.body.fault.faultNotesUpdated;
+        req.body.comment.text = req.sanitize(req.body.comment.text);
 
         // Creates the updated Fault Details
         var updatedData = { meterRead: req.body.fault.meterRead, faultCat: req.body.fault.faultCat, 
-                            faultNotes: updatedNotes, 
                             dmAuthor: { id: req.user._id, username: req.user.username }
                             };
         // Find & update the correct Fault Ticket
         
-        Fault.update({_id: req.params.id}, updatedData, function(err, updatedFault){
-
+        Fault.findOneAndUpdate({_id: req.params.id}, updatedData, function(err, updatedFault){
+                console.log(updatedFault);
                 if(err) {
                     req.flash("error", "An error has occured. No updated have been saved.");
                 } else {
-                    req.flash("success", "Fault " + updatedFault.jobRef + " has been successfully updated");
-                    res.redirect("/search/" + req.params.id);
+                    
+                    // Get latest comment and update
+                     Comment.create(req.body.comment, function(err, comment){
+                        if(err){
+                            req.flash("error", err.message);
+                            res.redirect("/");
+                            console.log(err);
+                            
+                            } else {
+                                comment.dmAuthor.id = req.user._id;
+                                comment.dmAuthor.username = req.user.username;
+                                //save comment
+                                comment.save();
+                                // Push comments to the newly created Fault & Save
+                                updatedFault.comments.push(comment);
+                                updatedFault.save(); // Save the fault with the fault note referenced
+                                req.flash("success", "Fault SMSDM " + updatedFault.jobRef + " has been successfully updated");
+                                res.redirect("/search/" + req.params.id);
+                       }
+                    }); 
                 }
-    });
+        });
 });   
     
 module.exports = router;

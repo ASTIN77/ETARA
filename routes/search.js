@@ -12,7 +12,7 @@ router.post("/", middleware.isLoggedIn, function(req,res){
         
         if (ticket.length) { // If ticket input field is not empty/undefined
         
-            Fault.findOne(ticketQuery, function(err, foundFault){
+            Fault.findOne(ticketQuery).populate("comments").exec(function(err, foundFault){
                 
                 if(err) {
                         req.flash("error", "Something went wrong. Please contact the System Administrator.");
@@ -30,7 +30,7 @@ router.post("/", middleware.isLoggedIn, function(req,res){
             
                 } else {
                     if (mprn) {
-                            Fault.find(mprnQuery, function(err, foundMprn){
+                            Fault.find(mprnQuery).populate("comments").exec(function(err, foundMprn){
                                 if(err){
                                     req.flash("error", "Something went wrong. Please contact the System Administrator.");
                                     res.redirect("/");
@@ -53,7 +53,7 @@ router.post("/", middleware.isLoggedIn, function(req,res){
 router.get("/:id", middleware.isLoggedIn, function(req, res) {
     
         
-        Fault.findById(req.params.id, function(err, foundFault) {
+        Fault.findById(req.params.id).populate("comments").exec(function(err, foundFault) {
         if (err) {
             console.log(err);
         

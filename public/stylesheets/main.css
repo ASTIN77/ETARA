@@ -1,47 +1,53 @@
-body, html {
-    height: 100%;
+body,
+html {
+	height: 100%;
 }
 
 .dmHeader {
-    background-color: #1B2B45;
+	background-color: #1B2B45;
 }
 
 .navbar {
-    background-color: #1B2B45;
-    color: #fff;
+	background-color: #1B2B45;
+	color: #fff;
 }
 
-.nav.navbar-brand, .nav.navbar-brand i {
-    text-align: center;
+.nav.navbar-brand,
+.nav.navbar-brand i {
+	text-align: center;
 }
 
-.nav a.navbar-brand, .nav.navbar-nav li, .nav.navbar-nav li a {
-   color: #fff;
-   font-weight: bold;
- }
- 
+.nav a.navbar-brand,
+.nav.navbar-nav li,
+.nav.navbar-nav li a {
+	color: #fff;
+	font-weight: bold;
+}
+
 .navbar-default .navbar-brand {
 	color: #fff;
 	margin-top: 8px;
 }
 
-a.navbar-brand:hover, .nav.navbar-nav li a:hover {
-   color: #fff;
-   background-color: gray;
-   border-radius: 20px;
- }
- 
-a.navbar-brand:visited, .nav.navbar-nav li a:visited {
-    text-decoration: none;
-    list-style-type: none;
+a.navbar-brand:hover,
+.nav.navbar-nav li a:hover {
+	color: #fff;
+	background-color: gray;
+	border-radius: 20px;
+}
+
+a.navbar-brand:visited,
+.nav.navbar-nav li a:visited {
+	text-decoration: none;
+	list-style-type: none;
 }
 
 nav .navlink {
-    color: #000;
+	color: #000;
 }
 
 nav li {
-    padding: 10px;
+	padding: 10px;
 }
 
 .boardMessages {
@@ -63,13 +69,13 @@ nav li {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background: rgba(0,0,0,0.8);
+	background: rgba(0, 0, 0, 0.8);
 	opacity: 0;
 	-webkit-transition: opacity 600ms ease-in;
 	-moz-transition: opacity 600ms ease-in;
 	-o-transition: opacity 600ms ease-in;
 	transition: opacity 600ms ease-in;
-	
+
 }
 
 
@@ -86,9 +92,15 @@ nav li {
 	background: -o-linear-gradient(#fff, #999);
 }
 
-.boxDialog section p, h2, h3, h4, h5, legend  {
+.boxDialog.section p,
+h2,
+h3,
+h4,
+h5,
+legend {
 	text-align: center;
 }
+
 .boxDialog a {
 	text-decoration: none;
 	list-style-type: none;
@@ -115,9 +127,12 @@ nav li {
 	box-shadow: 1px 1px 3px #000;
 }
 
-.siteDetails, .assetDetails, .visitSave, .updateMprn {
-    display: grid;
-    grid-template-columns: 2fr 2fr 2fr 1fr;
+.siteDetails,
+.assetDetails,
+.visitSave,
+.updateMprn {
+	display: grid;
+	grid-template-columns: 2fr 2fr 2fr 1fr;
 }
 
 .searchHeader {
@@ -125,10 +140,10 @@ nav li {
 }
 
 .divider {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    font-size: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	font-size: 1.5rem;
 	width: 100%;
 }
 
@@ -142,12 +157,12 @@ nav li {
 
 .divider input[type="text"]:disabled {
 	background-color: lightgray;
-	
+
 }
 
 .divider label {
-    position :absolute;
-    margin-left: 5px;
+	position: absolute;
+	margin-left: 5px;
 
 }
 
@@ -159,11 +174,11 @@ nav li {
 
 .visitBoxes input {
 	margin: 10px 10px;
-	transform:scale(1.5);
+	transform: scale(1.5);
 }
 
 .visitNotes {
-	
+
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
@@ -171,11 +186,35 @@ nav li {
 }
 
 .centerInputs {
-	
+
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
+}
+
+.notesMargin {
+	margin-left: 28px;
+}
+
+.visitComments {
+
+	background: #fff;
+	max-height: 250px;
+	margin: 10px auto;
+	width: 95%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.visitComments i {
+	margin: 10px 10px;
+}
+
+.visitComments.text {
+	border-radius: 20px;
+	margin: 10px 30px;
+	padding: 5px 10px;
 }
 
 .visitNotes textarea {
@@ -228,7 +267,7 @@ nav li {
 	align-items: center;
 	text-align: center;
 	font-size: 1.75rem;
-	
+
 }
 
 .resultsHeader {
@@ -236,7 +275,7 @@ nav li {
 	color: #fff;
 	margin: 0px 50px;
 	padding: 0px;
-	
+
 }
 
 .resultsBorder {
@@ -245,18 +284,24 @@ nav li {
 }
 
 .pull-right {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    margin: 20px 50px;
+	display: flex;
+	flex-direction: column;
+	margin: 10px 30px;
 }
 
-.pull-right .btn {
+.pull-right-buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	margin: 10px 30px;
+}
+
+.pull-right-buttons .btn {
 	margin: 5px 5px;
 }
 
 @media only screen and (max-width: 1600px) {
-    .boxDialog section {
-        width: 75%;
-    }
+	.boxDialog section {
+		width: 75%;
+	}
 }

@@ -67,20 +67,23 @@
                                     <input id="removal" type="radio" name="fault[faultCat]" value="Removal" <% if(fault.faultCat == "Removal"){ %> checked="checked" <% } %> /><label for="removal">Removal</label>
                                 </div>
                             </div>
-                            <label>Notes:</label>
-                            <div class="visitNotes">
-                                <textarea id="faultNotesReadOnly" name="fault[faultNotes]" rows="6"><%- fault.faultNotes %></textarea>
+                            <label class="notesMargin">Notes:</label>
+                            <div class="visitComments">
+                                <% fault.comments.forEach(function(comment){ %>
+                                    <div class="row VisitCommentsText">
+                                        <div class="col-md-9"><i class="far fa-comment-alt"></i><%= comment.text %></div>
+                                        <div class="col-md-3"><em class="pull-right">Added by:&emsp;<strong><%= comment.dmAuthor.username %></strong></em></div>
+                                    </div>
+                                <% }); %>
                             </div>
                             <div class="visitNotes">
-                                <textarea id="faultNotes" name="fault[faultNotesUpdated]" rows="4"></textarea>
+                                <textarea id="faultNotes" name="comment[text]" rows="4"></textarea>
                             </div>
-                            <div class="pull-right">
-                                <a class="btn btn-lg btn-danger buttonSize" href="/"> Back </a>
-                                <button class="btn btn-lg btn-warning buttonSize">Update Job</button>
+                            <div class="pull-right-buttons">
+                                    <a class="btn btn-md btn-warning" href="/"> Back </a>
+                                    <button class="btn btn-md btn-success">Update Job</button>
                     </form>
-                                
                             </div>
-                    </div>
                 </div>
             </form>
         </section>  
