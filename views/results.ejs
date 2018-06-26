@@ -13,7 +13,7 @@
                 </div>
             <% faults.forEach(function(results){ %>
                 <div class="row resultsBorder">
-                        <div class="col-md-3"><a href="/search/<%= results._id %>"><%=results.jobRef %></a></div>
+                        <div class="col-md-3"><a id="jobRefLink" href="/search/<%= results._id %>"><%=results.jobRef %></a></div>
                         <div class="col-md-3"><%=results.mprNo %></div>
                         <div class="col-md-3"><%= results.faultCat %></div>
                         <div class="col-md-3"><%= results.status %></div>
@@ -21,7 +21,7 @@
 
             <% }) %>
         </div>
-        <div class="row">
+        <div class="row alignResultsButton">
             <a class = "btn btn-danger btn-lg pull-right" href="/">Back</a>
         </div>
     </div>

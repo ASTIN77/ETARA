@@ -51,7 +51,9 @@ nav li {
 }
 
 .boardMessages {
-	padding-top: 100px;
+	padding: 100px 0 0 0;
+	margin: 0 30px;
+	border-radius: 20px;
 }
 
 
@@ -83,7 +85,7 @@ nav li {
 	width: 60%;
 	position: relative;
 	overflow: auto;
-	margin: 8% auto;
+	margin: 100px auto;
 	padding: 30px 20px 20px 20px;
 	border-radius: 10px;
 	background: #fff;
@@ -147,12 +149,16 @@ legend {
 	width: 100%;
 }
 
-.divider input {
+.divider input, .divider select {
 	position: relative;
 	margin-left: 8em;
 	padding-left: 5px;
 	border-radius: 2px;
 
+}
+
+.divider select {
+	width: 56%;
 }
 
 .divider input[type="text"]:disabled {
@@ -208,17 +214,37 @@ legend {
 }
 
 .visitComments i {
-	margin: 10px 10px;
+	margin: 20px auto;
+	display: block;
+	text-align: center;
 }
 
-.visitComments.text {
-	border-radius: 20px;
-	margin: 10px 30px;
-	padding: 5px 10px;
+.visitCommentsText {
+
+	margin: 20px auto;
+}
+
+a {
+	color:inherit;
+	text-decoration: none;
+}
+
+.justifyCommentsText {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	padding-right: 50px;
+	margin: 20px auto;
 }
 
 .visitNotes textarea {
 	width: 95%;
+}
+
+#faultNotes {
+	box-sizing: border-box;
+	padding-top : 20px;
+	padding-left: 90px;
 }
 
 .buttonSize {
@@ -256,6 +282,11 @@ legend {
 
 }
 
+.alert {
+	border-radius: 20px;
+	text-align: center;
+}
+
 .boxDisplay {
 	display: flex;
 	flex-direction: column;
@@ -283,20 +314,30 @@ legend {
 	margin: 1px 50px;
 }
 
+#jobRefLink {
+	text-decoration: none;
+}
+
+.alignResultsButton {
+	margin: 5px 20px;
+}
+
 .pull-right {
 	display: flex;
 	flex-direction: column;
-	margin: 10px 30px;
+	justify-content: center;
+	margin: 10px 10px;
+	
 }
 
 .pull-right-buttons {
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
-	margin: 10px 30px;
+	margin: 10px 10px;
 }
 
-.pull-right-buttons .btn {
+.pull-right-buttons .btn, .pull-right .btn {
 	margin: 5px 5px;
 }
 
