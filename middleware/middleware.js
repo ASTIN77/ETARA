@@ -1,5 +1,4 @@
 var middlewareObj = {};
-var User = require("../models/user");
 
 
 middlewareObj.isLoggedIn = function(req,res,next){
@@ -12,20 +11,8 @@ middlewareObj.isLoggedIn = function(req,res,next){
 
 middlewareObj.logout = function (req, res, next) {
         req.logout();
-        req.flash("success", "Your have successfully signed out.");
-        res.redirect("/search");
+        req.flash("success", "You are now logged out.");
+        return next();
     };
     
-middlewareObj.isAdmin = function (req, res, next) {
-       if(req.body.adminCode === 'C25hF931b#'){
-           req.body.isOwner = true;
-           req.body.isAdmin = true;
-       }
-       if (req.body.adminCode === '67b97CAd8#') {
-           req.body.isAdmin = true;
-       }
-       return next();
-    };
-
-
 module.exports = middlewareObj;

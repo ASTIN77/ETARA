@@ -24,29 +24,28 @@ router.post("/login", function(req, res, next){
      passport.authenticate('local', function(err, user, info) {
             if (err) { 
                 req.flash("error", "Oops, something went wrong. Please try again!");
-                return next(err); }
-                if (!user) { 
-                    req.flash("error", "Invalid Username or Password.");
-                    return res.redirect("/login"); }
-                req.flash("success", "Welcome " + user.username);
-                req.logIn(user, function(err) {
-      if (err) 
-      { return next(err); }
-      
-      return res.redirect("/");
+                return next(err); 
+            }
+            if (!user) { 
+                req.flash("error", "Invalid Username or Password.");
+                return res.redirect("/login"); 
+            }
+            req.flash("success", "Welcome " + user.username);
+            req.logIn(user, function(err) {
+                if (err) { 
+                    return next(err); 
+                    
+                }
+            return res.redirect("/");
     });
   })(req, res, next);
 });  
 
 // LOGOUT USER - GET ROUTE
 
-router.get('/logout', function (req, res) {
-        req.logout();
-        req.flash("success", "You are now logged out.");
-        req.session.save(function () {
-            res.redirect('/');
+router.get('/logout', middleware.logout, function (req, res) {
+            res.redirect('/login');
         });
-});
 
 // REGISTER USER - GET ROUTE
 router.get("/register", middleware.isLoggedIn, function (req,res){
@@ -63,7 +62,6 @@ router.post("/register", middleware.isLoggedIn, function(req,res){
     User.register(newUser, req.body.password, function(err, user){
                 if(err){
                     req.flash("error", err.message);
-                    
                     return res.redirect("/register");
                 } else {
                     req.flash("success", user.username + " account has been successfully created!");
