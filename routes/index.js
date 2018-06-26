@@ -8,7 +8,7 @@ const   express             =       require("express"),
 
 // INDEX ROUTE
     
-router.get("/", function (req,res){
+router.get("/", middleware.checkCurrentUser, function (req,res){
     res.render("index");
 }) ;
 

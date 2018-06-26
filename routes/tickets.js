@@ -81,16 +81,13 @@ router.post("/new/create", middleware.isLoggedIn, function(req, res) {
     });
 });
 
-
 // EDIT TICKET - POST ROUTE
 
 router.put("/:id", middleware.isLoggedIn, function(req, res) {
 
   //  The following line of code sanitizes the visit notes section 
   //  to remove any scripts that a user may inject
-
   req.body.comment.text = req.sanitize(req.body.comment.text);
-
   // Creates the updated Fault Details
   var updatedData = {
       meterRead: req.body.fault.meterRead, faultCat: req.body.fault.faultCat, status: req.body.fault.status,
@@ -98,14 +95,10 @@ router.put("/:id", middleware.isLoggedIn, function(req, res) {
   };
   // Find & update the correct Fault Ticket
 
-  Fault.findOneAndUpdate({
-    _id: req.params.id
-  }, updatedData, function(err, updatedFault) {
-
+  Fault.findOneAndUpdate({_id: req.params.id}, updatedData, function(err, updatedFault) {
     if (err) {
       req.flash("error", "An error has occured. No updated have been saved.");
     } else {
-
       // Get latest comment and update
       if (req.body.comment.text) { // make sure a comment has been added
 
@@ -113,8 +106,6 @@ router.put("/:id", middleware.isLoggedIn, function(req, res) {
           if (err) {
             req.flash("error", err.message);
             res.redirect("/");
-            console.log(err);
-
           } else {
             comment.dmAuthor.id = req.user._id;
             comment.dmAuthor.username = req.user.username;
@@ -125,7 +116,6 @@ router.put("/:id", middleware.isLoggedIn, function(req, res) {
           }
         });
       }
-
       // Then, Save mprn details to
       // capture any changed details such as ADM serial or IMEI
 
@@ -141,15 +131,13 @@ router.put("/:id", middleware.isLoggedIn, function(req, res) {
         if (err) {
           req.flash("error", err.message);
           res.redirect("/");
-          console.log(err);
-        } 
+              } 
       });
     }
         var response =  'Fault Ticket Reference SMSDM:  <a href="/search/'+ req.params.id +'">' + req.body.fault.jobRef + '</a> has been successfully updated.';
         req.flash('success', response);
         res.redirect("/"); 
-    
-  });
+      });
 });
 
 // DELETE TICKET - POST ROUTE
