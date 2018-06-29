@@ -166,10 +166,18 @@ legend {
 
 }
 
+.divider input[readonly] {
+  background-color: lightgray;
+}
+
 .divider label {
 	position: absolute;
 	margin-left: 5px;
 
+}
+
+radio[readonly] {
+	background-color: #fff;
 }
 
 .visitBoxes {
@@ -327,6 +335,7 @@ a {
 	flex-direction: column;
 	justify-content: center;
 	margin: 10px 10px;
+	padding-left: 50px;
 	
 }
 
