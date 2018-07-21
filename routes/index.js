@@ -43,23 +43,23 @@ router.post("/login", function(req, res, next){
 
 // LOGOUT USER - GET ROUTE
 
-router.get('/logout', middleware.logout, function (req, res) {
+router.get('/logout', middleware.logout, (req, res) => {
             res.redirect('/login');
         });
 
 // REGISTER USER - GET ROUTE
-router.get("/register", middleware.isLoggedIn, function (req,res){
+router.get("/register", middleware.isLoggedIn, (req,res) => {
     
     res.render("register"); 
 });
 
 // REGISTER USER - POST ROUTE
 
-router.post("/register", middleware.isLoggedIn, function(req,res){
+router.post("/register", middleware.isLoggedIn, (req,res) => {
 
     var newUser = new User({firstName: req.body.firstName, lastName: req.body.lastName, 
                             username: req.body.username, email: req.body.email, isAdmin: req.body.isAdmin, isManager: req.body.isManager});
-    User.register(newUser, req.body.password, function(err, user){
+    User.register(newUser, req.body.password, (err, user) => {
                 if(err){
                     req.flash("error", err.message);
                     return res.redirect("/register");

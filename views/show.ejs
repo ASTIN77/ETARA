@@ -45,26 +45,37 @@
                         <div class="form-group"><label for="meterType">Meter Type</label><input class="lockFields" type="text" name="mprn[meterType]" value="<%= mprn.meterType %>" /></div>
                         <div class="form-group"><label for="admSerial">ADM Serial</label><input class="lockUpdates" type="text" name="mprn[admSerial]" value="<%= mprn.admSerial %>" /></div>
                         <div class="form-group"><label for="admImei">ADM IMEI</label><input class="lockUpdates" type="text" name="mprn[admImei]" value="<%- mprn.admImei %>" /></div>
+                        <div class="form-group"><label for="admInstallDate">Install Date</label><input class="lockUpdates" type="date" name="mprn[admInstallDate]" value="<%- mprn.admInstallDate %>" /></div>
                     </div>
                     <div class="divider">
-                        <div class="form-group"><label for="meterRead">Meter Read</label><input class="lockUpdates" type="text" name="fault[meterRead]" value="<%= fault.meterRead %>" /></div>
+                        <div class="form-group"><label for="meterRead">Meter Read</label><input class="lockUpdates" type="text" name="fault[meterRead]" value="<%- fault.meterRead %>" /></div>
                         <% if(!currentUser) { %>
                             <div class="form-group"><label for="user">User</label><input type="text" name="user" disabled /></div>
                             <% } else { %>
                                 <div class="form-group"><label for="user">User</label><input type="text" name="user" value="<%= currentUser.username %>" disabled /></div>
                             <% } %>
                                 <div class="form-group"><label for="JobStatus">Job Status</label> 
-                                    <select class="lockUpdates" name="fault[status]" id="jobStatus">
+                                    <select title="Job Status" class="lockUpdates" name="fault[status]" id="jobStatus">
                                             <option <%= fault.status == "Outstanding" ? "selected" : "" %> value="Outstanding">Outstanding</option>
                                             <option <%= fault.status =="Completed" ? "selected" : "" %> value="Completed">Completed</option>
                                             <option <%= fault.status =="Cancelled" ? "selected" : "" %> value="Cancelled">Cancelled</option>
                                     </select> 
                                 </div>
+                            <div class="divider">
+                                 <div class="form-group"><label for="cancelReason">Cancel Reason</label> 
+                                 <div id="cancelReason" class="form-group">
+                                        <input id="isCancelledReason" class="lockUpdates" type="text" name="fault[isCancelledReason]" value="<%= fault.isCancelledReason %>" /></div>
+                                </div>
+                            </div>
                     </div>
                 </div>
                     <hr>
                         <div class="visitDetails">
-                            <div class="visitBoxes">
+                                    <div class="form-group"><label for="Date Raised">Date Raised: </label><%= fault.requestedDate.toLocaleDateString("en") %></div>
+                                    <div class="form-group"><label for="SLA Date">SLA Date: </label><%= fault.slaDate.toLocaleDateString("en") %></div>
+                                    <div class="form-group"><label for="Attended date">Attended Date: </label><%= fault.attendedDate.toLocaleDateString("en") %></div>
+                            <div class="visitBoxes lockUpdates">
+                                
                                 <div class="form-group">
                                     <label>Visit Category: </label>
                                     <input class="lockUpdates" id="signal" type="radio" name="fault[faultCat]" value="Signal" <% if(fault.faultCat == "Signal"){ %> checked="checked" <% } %> /><label for="signal">Signal</label>
@@ -94,7 +105,7 @@
                     </form>
                 </div>
             </form>
-            <form id="unlockOptions" onSubmit="unlockJob()"></form>
+            <form id="unlockOptions" ></form>
             <form id="adminOptions" action="/tickets/<%= fault._id %>?_method=DELETE" method="POST"></form>
         </section>  
     </section>

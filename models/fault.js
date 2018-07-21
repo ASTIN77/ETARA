@@ -16,6 +16,7 @@ var FaultSchema = new mongoose.Schema({
         attendedDate: {type: Date, default: null},
         faultCat: String,
         meterRead: String,
+        isCancelledReason: {type: String},
         dmAuthor: {
             id: {type: mongoose.Schema.Types.ObjectId, ref: "User" },
             username: String
