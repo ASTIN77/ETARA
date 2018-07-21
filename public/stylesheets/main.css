@@ -334,8 +334,7 @@ a {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	margin: 10px 10px;
-	padding-left: 50px;
+	margin: 5px 30px 10px;
 	
 }
 
@@ -343,11 +342,15 @@ a {
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
-	margin: 10px 10px;
+	margin: 0 25px 10px;
 }
 
 .pull-right-buttons .btn, .pull-right .btn {
 	margin: 5px 5px;
+}
+
+.centerButton {
+	margin: 0 auto;
 }
 
 @media only screen and (max-width: 1600px) {

@@ -18,6 +18,7 @@ var MprnSchema = new mongoose.Schema({
         meterMake: String,
         admSerial: String,
         admImei: String,
+        admInstallDate: {type: Date, default: null}
     });
     
     

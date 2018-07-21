@@ -15,13 +15,16 @@ const express             =       require('express'),
       indexRoutes         =       require("./routes/index"),
       ticketRoutes        =       require("./routes/tickets"),
       searchRoutes        =       require("./routes/search"),
+      uploadRoutes        =       require("./routes/uploads"),
+      reportRoutes        =       require("./routes/reports"),
       app                 =       express();
       mongoose.Promise    =       global.Promise;
 
 
 // MONGOOSE DATABASE CONNECTION SETUP
 
-mongoose.connect('mongodb://adminTest:Chalmers77@ds247439.mlab.com:47439/smsdm-artta');
+/*mongoose.connect('mongodb://adminTest:Chalmers77@ds247439.mlab.com:47439/smsdm-artta', {useNewUrlParser: true});*/
+  mongoose.connect('mongodb://' + process.env.IP + ':' + '27017/smsdm', {useNewUrlParser: true});
 
 
 // SETUP ENVIROMENTALS
@@ -54,6 +57,8 @@ app.use(function(req,res, next){
 app.use(indexRoutes);
 app.use("/tickets",ticketRoutes);
 app.use("/search", searchRoutes);
+app.use("/upload", uploadRoutes);
+app.use("/reports", reportRoutes);
     
 app.set('port', process.env.PORT);  
 
