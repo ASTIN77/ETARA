@@ -59,7 +59,7 @@ nav li {
 
 /* Job Box styling */
 
-.jobdetails {
+.jobdetails, .reportingDetails {
 	margin: 0;
 	padding: 0;
 }
@@ -109,6 +109,10 @@ legend {
 	color: white;
 }
 
+.boxTitle {
+	padding-bottom: 20px;
+}
+
 .close {
 	background: #FF0000;
 	color: #FFFFFF;
@@ -131,6 +135,7 @@ legend {
 
 .siteDetails,
 .assetDetails,
+.reportDetails,
 .visitSave,
 .updateMprn {
 	display: grid;
@@ -149,6 +154,13 @@ legend {
 	width: 100%;
 }
 
+input[type="date"]
+{
+    display:block;
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    min-height: 1.2em;
+}
 .divider input, .divider select {
 	position: relative;
 	margin-left: 8em;

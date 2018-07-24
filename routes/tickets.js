@@ -56,11 +56,12 @@ router.post("/create", middleware.isLoggedIn, (req, res) => {
 
   //  The following line of code sanitizes the visit notes section 
   //  to remove any scripts that a user may inject
-  req.body.comment.text = req.sanitize(req.body.comment.text);
+  req.body.faultIssue.text = req.sanitize(req.body.faultIssue.text);
 
   var dmAuthor = { id: req.user._id, username: req.user.username };
-  var newFault = { mprNo: req.body.mprn, meterRead: req.body.meterRead, faultCat: req.body.faultCat, 
-                    dmAuthor: dmAuthor };
+  var newFault = { mprNo: req.body.mprn, meterRead: req.body.meterRead, 
+                   faultCat: req.body.faultCat, faultIssue: req.body.faultIssue, 
+                  dmAuthor: dmAuthor };
   
           // Create New Fault Ticket
   
@@ -69,28 +70,9 @@ router.post("/create", middleware.isLoggedIn, (req, res) => {
               req.flash("error", "Oops, Error Creating New Ticket. Please request assistance from your system administrator.");
               res.render("index");
             } else {
-        
-              // Create a new Comment
-              // and add to the Fault Ticket
-              if (req.body.comment.text) { // make sure a comment has been added
-                Comment.create(req.body.comment, (err, comment) => {
-                  if (err) {
-                    req.flash("error", err.message);
-                    res.redirect("/");
-                  } else {
-                    comment.dmAuthor.id = req.user._id;
-                    comment.dmAuthor.username = req.user.username;
-                    //save comment
-                    comment.save();
-                    // Push comments to the newly created Fault & Save
-                    newFault.comments.push(comment);
-                    newFault.save(); // Save the fault with the fault note referenced
-                    }
-                });
-              }
-                    var response =  'Fault Ticket Reference SMSDM:  <a href="/search/'+ newFault._id +'">' + newFault.jobRef + '</a> has been successfully created.';
-                    req.flash('success', response);
-                    res.redirect("/");          
+                  var response =  'Fault Ticket Reference SMSDM:  <a href="/search/'+ newFault._id +'">' + newFault.jobRef + '</a> has been successfully created.';
+                  req.flash('success', response);
+                  res.redirect("/");          
               }
             });
         });

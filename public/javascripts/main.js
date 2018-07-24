@@ -3,6 +3,7 @@ $(document).ready(function() {
   // Fade in ticket views
   
   $("#newJob").fadeTo("slow", 1);
+  $("#jobReports").fadeTo("slow", 1);
   
   // Initialise elements defined by Class Names
   // of 'lockDetails' and 'lockFields' as 'read only'

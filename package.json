@@ -18,16 +18,18 @@
     "express-fileupload": "^0.4.0",
     "express-sanitizer": "^1.0.4",
     "express-session": "^1.15.6",
-    "json2csv": "^4.1.5",
+    "fast-csv": "^2.4.1",
+    "json2csv": "^4.1.6",
     "method-override": "^2.3.10",
-    "mongoose": "^5.2.2",
+    "mongoose": "^5.2.4",
     "mongoose-sequence": "^4.0.1",
-    "nodemon": "^1.18.0",
     "passport": "^0.4.0",
     "passport-local-mongoose": "^5.0.0",
     "session-memory-store": "^0.2.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ASTIN77/TM470.git"

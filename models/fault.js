@@ -21,6 +21,7 @@ var FaultSchema = new mongoose.Schema({
             id: {type: mongoose.Schema.Types.ObjectId, ref: "User" },
             username: String
             },
+        faultIssue: String,
         comments: [{
                 type: mongoose.Schema.Types.ObjectId, ref: "Comment"
                 }]
