@@ -23,7 +23,6 @@ const express             =       require('express'),
 
 // MONGOOSE DATABASE CONNECTION SETUP
 
-/*mongoose.connect('mongodb://adminTest:Chalmers77@ds247439.mlab.com:47439/smsdm-artta', {useNewUrlParser: true});*/
   mongoose.connect('mongodb://' + process.env.IP + ':' + '27017/smsdm', {useNewUrlParser: true});
 
 

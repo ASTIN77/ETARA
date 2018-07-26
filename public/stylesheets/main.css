@@ -302,6 +302,10 @@ a {
 
 }
 
+.resultsBox {
+	font-size: 1.5rem;
+}
+
 .alert {
 	border-radius: 20px;
 	text-align: center;

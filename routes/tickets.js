@@ -144,14 +144,15 @@ router.put("/:id", middleware.isLoggedIn, (req, res) => {
 
 // DELETE TICKET - POST ROUTE
 
-router.delete("/:id", middleware.isLoggedIn, (req,res) => {
-     Fault.findByIdAndRemove({_id: req.params.id}, (err, foundTicket) => {
-         if(err){
-            req.flash("error", "Unable To Delete Ticket. Please Contact Support Administrator.");
-         } else {
-            req.flash("success", "Ticket SMSDM " + foundTicket.jobRef +" successfully removed.");
-            res.redirect("/") ;   
-         }
+router.delete("/:id", middleware.isLoggedIn, (req,res, next) => {
+     Fault.findById({_id: req.params.id}, (err, foundTicket) => {
+       Comment.remove({"_id": {$in: foundTicket.comments}
+         }, (err) => {
+           if(err) return next(err);
+           foundTicket.remove();
+           req.flash("success", "Ticket SMSDM " + foundTicket.jobRef +" successfully removed.");
+           res.redirect("/") ;
+       });
       });
 });
 
