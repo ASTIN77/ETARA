@@ -60,8 +60,8 @@ router.post("/create", middleware.isLoggedIn, (req, res) => {
 
   var dmAuthor = { id: req.user._id, username: req.user.username };
   var newFault = { mprNo: req.body.mprn, meterRead: req.body.meterRead, 
-                   faultCat: req.body.faultCat, faultIssue: req.body.faultIssue, 
-                  dmAuthor: dmAuthor };
+                   faultCat: req.body.faultCat, faultIssue: req.body.faultIssue,
+                   appDate: req.body.appDate, dmAuthor: dmAuthor };
   
           // Create New Fault Ticket
   
@@ -82,16 +82,15 @@ router.post("/create", middleware.isLoggedIn, (req, res) => {
 // EDIT TICKET - POST ROUTE
 
 router.put("/:id", middleware.isLoggedIn, (req, res) => {
-
-  //  The following line of code sanitizes the visit notes section 
-  //  to remove any scripts that a user may inject
-  req.body.comment.text = req.sanitize(req.body.comment.text);
+  
+  
   // Creates the updated Fault Details
-  var updatedData = {
-      meterRead: req.body.fault.meterRead, faultCat: req.body.fault.faultCat, status: req.body.fault.status,
-      isCancelledReason: req.body.fault.isCancelledReason,
-      dmAuthor: { id: req.user._id, username: req.user.username }
-  };
+   var updatedData ={};
+   for(var key in req.body.fault){  
+            req.body.fault[key] !== "" ? updatedData[key] = req.body.fault[key] : null;
+   }
+
+  req.body.comment.text = req.sanitize(req.body.comment.text);  // sanitizes the visit notes section to remove any scripts
 
   // Find & update the correct Fault Ticket
 
@@ -119,16 +118,14 @@ router.put("/:id", middleware.isLoggedIn, (req, res) => {
       }
       // Then, Save mprn details to
       // capture any changed details such as ADM serial or IMEI
-
-      var updatedMprnData = {
-        supplier: req.body.mprn.supplier, sitename: req.body.mprn.siteName, buildingNo: req.body.mprn.buildingNo,
-        streetAddress1: req.body.mprn.streeAddress1, streetAddress2: req.body.mprn.streeAddress2, townCity: req.body.mprn.townCity,
-        postCode: req.body.mprn.postCode, siteContactName: req.body.mprn.siteContactName, siteContactNo: req.body.mprn.siteContactNo,
-        msn: req.body.mprn.msn, meterModel: req.body.mprn.meterModel, meterMake: req.body.mprn.meterMake,
-        meterType: req.body.mprn.meterType, admSerial: req.body.mprn.admSerial, admImei: req.body.mprn.admImei, admInstallDate: req.body.mprn.admInstallDate
-      };
-
-      Mprn.findOneAndUpdate(req.body.mprNo, updatedMprnData, (err, updatedMprn) => {
+      
+      var updatedMprnData ={};
+      
+      for(var key in req.body.mprn){  
+            req.body.mprn[key] !== "" ? updatedMprnData[key] = req.body.mprn[key] : null;
+            
+   }
+      Mprn.findOneAndUpdate({mprNo: req.body.mprn.mprNo}, updatedMprnData, (err, updatedMprn) => {
         if (err) {
           req.flash("error", err.message);
           res.redirect("/");
@@ -141,10 +138,10 @@ router.put("/:id", middleware.isLoggedIn, (req, res) => {
       });
 });
 
-
 // DELETE TICKET - POST ROUTE
 
 router.delete("/:id", middleware.isLoggedIn, (req,res, next) => {
+  
      Fault.findById({_id: req.params.id}, (err, foundTicket) => {
        Comment.remove({"_id": {$in: foundTicket.comments}
          }, (err) => {

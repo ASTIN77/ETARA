@@ -22,8 +22,8 @@
                             <div class="col-sm-1"><% if(results.attendedDate){ %><%= results.attendedDate.toLocaleDateString('en-GB') %><% } %></div>
                             <div class="col-sm-1"><% if(results.slaDate){ %><%= results.slaDate.toLocaleDateString('en-GB') %><% } %></div>
                             <div class="col-sm-1"><%= results.dmAuthor.username %></div>
-                            <div class="col-sm-2"><%= results.siteName %></div>
-                            <div class="col-sm-1"><%= results.postCode %></div>
+                            <div class="col-sm-2"><%= results.siteDetails.siteName %></div>
+                            <div class="col-sm-1"><%= results.siteDetails.postCode %></div>
                         </div>
                     <% }); %>
                     </form>

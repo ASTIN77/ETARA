@@ -2,7 +2,6 @@ const express = require("express"),
       router  = express.Router({mergeParams: true}),
       Fault   = require('../models/fault'),
       Mprn    = require('../models/mprn'),
-      async   = require("async"),
       middleware = require("../middleware/middleware");
       
       // Report routes to be impletented here
@@ -25,47 +24,36 @@ router.post("/query", (req,res) => {
       var reportQuery = {};
       
       // Build a query [reportQuery] using only populated input requests
-      
+      // and cast to correct types
       for(var key in req.body){  
-            req.body[key] !== "" ? reportQuery[key] = req.body[key] : null;
+                req.body[key] !== "" ? reportQuery[key] = req.body[key] : null;
+                
+                if (req.body.mprNo){
+                    reportQuery.mprNo = Number(req.body.mprNo);
+                }
+                if (req.body.jobRef){
+                    reportQuery.jobRef = Number(req.body.jobRef);
+                }
             }
-
-      // Execute the query using the reportQuery object parameters
-      
-      Fault.find(reportQuery, (err, faultResults) => {
-            
-            var mprns;
-            if(err){
-                  req.flash("error", err.message);
-                  res.redirect("/");
-            }
-            
-      // map reduce function to return an array of mprn numbers
-      // for each found Fault
-        
-       mprns = faultResults.map(function (fault) { return fault.mprNo; });
-       
-       // Find MPRN documents that correspond to the variable 'mprns' array
-          
-       Mprn.find({mprNo: {$in: mprns}}, function (err, mprnResults) {
-            if (err) {
-                  req.flash("error", err.message);
-                  res.redirect("/");
-                  return;
-                  }
-                  
-            // For each Fault found, amend the query results and
-            // assign attributes from the MPRn document to the Fault Document
-
-            faultResults.forEach(function (fault) {
-                  fault.mprnResults = mprnResults.filter(function (mprn) {
-                  return fault.siteName = mprn.siteName, fault.postCode = mprn.postCode;
+                // Query using aggregate method to obtain mprn details for each record found.
+                  Fault.aggregate([
+                    { "$match": reportQuery },
+                    { "$lookup": {
+                      "from": "mprns",
+                      "let": { "mprNo": "$mprNo" },
+                      "pipeline": [
+                        { "$match": { "$expr": { "$eq": [ "$mprNo", "$$mprNo" ] } } }
+                      ],
+                      "as": "siteDetails"
+                    }},
+                    { "$unwind": "$siteDetails" }
+                  ]).exec(function (err,faultResults){
+                      if(err) {
+                        res.flash("error", "Something has went wrong. Please check and try again!");
+                      } else {
+                        res.render("reportResults", { queryResults: faultResults }) ;  
+                      }
                   });
-            });
-            res.render("reportResults", { queryResults: faultResults });   
-                  
-            });
-      });
 });
-      
+                            
 module.exports = router;

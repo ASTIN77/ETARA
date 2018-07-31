@@ -8,7 +8,7 @@
                 <div class="reportDetails">
                     <div class="divider">
                         <div class="form-group"><label for="mprNo">MPRN: </label><input type="text" name="mprNo" /></div>
-                        <div class="form-group"><label for="faultRef">Fault Ref: </label><input type="text" name="faultRef" /></div>
+                        <div class="form-group"><label for="jobRef">Fault Ref: </label><input type="text" name="jobRef" /></div>
                         <div class="form-group"><label for="supplier">Supplier: </label><input type="text" name="supplier" /></div>
                         <div class="form-group"><label for="jobStatus">Job Status: </label>
                             <select id="jobStatus" class="form-group" name="status">
@@ -27,7 +27,7 @@
                             <select id="faultCat" class="form-group" name="faultCat">
                                 <option hidden selected value> -- select an option -- </option>
                                 <option value="Signal">Signal</option>
-                                <option value="Read/Escalate">Read/Escalate</option>
+                                <option value="Read / Escalate">Read / Escalate</option>
                                 <option value="Read Required">Read Required</option>
                                 <option value="Install">Install</option>
                                 <option value="Removal">Removal</option>
@@ -35,10 +35,10 @@
                         </div>
                     </div>
                     <div class="divider">
-                        <div class="form-group"><label for="siteName">Site Name: </label><input type="text" name="siteName" /></div>
-                        <div class="form-group"><label for="postCode">Post Code: </label><input type="text" name="postCode" /></div>
-                        <div class="form-group"><label for="streetAddress1">Address (1): </label><input type="text" name="streetAddress1" /></div>
-                        <div class="form-group"><label for="streetAddress2">Address (2): </label><input type="text" name="streetAddress2" /></div>
+                        <div class="form-group"><label for="siteName">Site Name: </label><input type="text" name="siteDetails.siteName" /></div>
+                        <div class="form-group"><label for="postCode">Post Code: </label><input type="text" name="siteDetails.postCode" /></div>
+                        <div class="form-group"><label for="streetAddress1">Address (1): </label><input type="text" name="siteDetails.streetAddress1" /></div>
+                        <div class="form-group"><label for="streetAddress2">Address (2): </label><input type="text" name="siteDetails.streetAddress2" /></div>
                     </div>
                 </div>
                 <div class="pull-right-buttons">

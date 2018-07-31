@@ -1,8 +1,7 @@
 var mongoose = require("mongoose");
-var passportLocalMongoose = require("passport-local-mongoose");
 
 var MprnSchema = new mongoose.Schema({
-        mprNo: Number,
+        mprNo: {type: Number, unique: true, required: true},
         siteName: String,
         buildingNo: Number,
         streetAddress: String,
@@ -20,8 +19,5 @@ var MprnSchema = new mongoose.Schema({
         admImei: String,
         admInstallDate: {type: Date, default: null}
     });
-    
-    
-MprnSchema.plugin(passportLocalMongoose);
     
 module.exports = mongoose.model("Mprn", MprnSchema);

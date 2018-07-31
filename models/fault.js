@@ -17,6 +17,7 @@ var FaultSchema = new mongoose.Schema({
         faultCat: String,
         meterRead: String,
         isCancelledReason: {type: String},
+        siteDetails: {type: mongoose.Schema.Types.ObjectId, ref: 'Mprn'},
         dmAuthor: {
             id: {type: mongoose.Schema.Types.ObjectId, ref: "User" },
             username: String
@@ -28,6 +29,6 @@ var FaultSchema = new mongoose.Schema({
 
     });
     
-FaultSchema.plugin(AutoIncrement, {inc_field: 'jobRef'});
+FaultSchema.plugin(AutoIncrement, {inc_field: 'jobRef', startAt: 60000});
     
 module.exports = mongoose.model("Fault", FaultSchema);

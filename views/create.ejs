@@ -36,6 +36,7 @@
                         <div class="form-group"><label for="msn">Meter Serial No</label><input type="text" name="msn" value="<%= mprn.msn %>" /></div>
                         <div class="form-group"><label for="meterModel">Meter Model</label><input type="text" name="meterModel" value="<%= mprn.meterModel %>" /></div>
                         <div class="form-group"><label for="meterMake">Meter Make</label><input type="text" name="meterMake" value="<%= mprn.meterMake %>" /></div>
+                        <div class="form-group"><label for="admInstallDate">Appointment</label><input type="date" name="appDate" /></div>
                     </div>
                     <div class="divider">
                         <div class="form-group"><label for="meterType">Meter Type</label><input type="text" name="meterType" value="<%= mprn.meterType %>" /></div>
@@ -61,11 +62,11 @@
                     <div class="visitBoxes">
                         <div class="form-group">
                             <label>Visit Category: </label>
-                            <input id="signal" type="radio" name="faultCat" value="Signal" /><label for="signal">Signal</label>
-                            <input id="read-escalate" type="radio" name="faultCat" value="Read / Escalate" /><label for="read-escalate">Read/Escalate</label>
-                            <input id="read-required" type="radio" name="faultCat" value="Read Required"/><label for="read-required">Read Required</label>
-                            <input id="install" type="radio" name="faultCat" value="Install"/><label for="install">Install</label>
-                            <input id="removal" type="radio" name="faultCat" value="Removal"/><label for="removal">Removal</label>
+                            <input id="signal" type="radio" name="faultCat" value="Signal" required /><label for="signal">Signal</label>
+                            <input id="read-escalate" type="radio" name="faultCat" value="Read / Escalate" required /><label for="read-escalate">Read/Escalate</label>
+                            <input id="read-required" type="radio" name="faultCat" value="Read Required" required /><label for="read-required">Read Required</label>
+                            <input id="install" type="radio" name="faultCat" value="Install" required /><label for="install">Install</label>
+                            <input id="removal" type="radio" name="faultCat" value="Removal" required /><label for="removal">Removal</label>
                         </div>
                     </div>
                     <div class="visitNotes">

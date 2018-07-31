@@ -17,6 +17,7 @@ const express             =       require('express'),
       searchRoutes        =       require("./routes/search"),
       uploadRoutes        =       require("./routes/uploads"),
       reportRoutes        =       require("./routes/reports"),
+      mprnRoutes          =       require("./routes/mprns"),
       app                 =       express();
       mongoose.Promise    =       global.Promise;
 
@@ -52,12 +53,12 @@ app.use(function(req,res, next){
     res.locals.confirm = req.flash("confirm");
     next(); });
     
-    
 app.use(indexRoutes);
 app.use("/tickets",ticketRoutes);
 app.use("/search", searchRoutes);
 app.use("/upload", uploadRoutes);
 app.use("/reports", reportRoutes);
+app.use("/mprns", mprnRoutes);
     
 app.set('port', process.env.PORT);  
 
