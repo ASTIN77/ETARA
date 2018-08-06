@@ -11,6 +11,11 @@ router.get("/", middleware.isLoggedIn, (req,res) =>{
 });
 
 router.post("/query", (req,res) => {
+  
+/*    if(Object.keys(req.body).length ===0) {
+        req.flash("error", "Nothing selected. Please enter a search query!");
+        res.render("index");
+        }*/
       
       // if query specifies a requested Date
       
@@ -22,7 +27,7 @@ router.post("/query", (req,res) => {
             req.body.requestedDate = {$lte: endDate, $gte: startDate};
       }
       var reportQuery = {};
-      
+
       // Build a query [reportQuery] using only populated input requests
       // and cast to correct types
       for(var key in req.body){  
@@ -35,6 +40,7 @@ router.post("/query", (req,res) => {
                     reportQuery.jobRef = Number(req.body.jobRef);
                 }
             }
+              
                 // Query using aggregate method to obtain mprn details for each record found.
                   Fault.aggregate([
                     { "$match": reportQuery },
@@ -49,7 +55,8 @@ router.post("/query", (req,res) => {
                     { "$unwind": "$siteDetails" }
                   ]).exec(function (err,faultResults){
                       if(err) {
-                        res.flash("error", "Something has went wrong. Please check and try again!");
+                        req.flash("error", "Something has went wrong. Please check and try again!");
+                        res.render("index");
                       } else {
                         res.render("reportResults", { queryResults: faultResults }) ;  
                       }
