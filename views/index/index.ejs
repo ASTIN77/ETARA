@@ -1,4 +1,4 @@
-<% include partials/header %>
+<% include ../partials/header %>
         
     <!-- Display Job Search Box -->
     
@@ -6,11 +6,11 @@
         <h2 class="searchHeader">Welcome</h2>
             <section class="boxDisplay divider">
                 <form action="/search/" method="post">
-                    <div class="form-group"><label>Job Ref </label> <input type="text" name="ticketRef" /></div>
-                    <div class="form-group"><label>MPRN </label> <input type="text" name="mprnRef" /></div>
+                    <div class="form-group"><label for="ticketRef">Job Ref </label> <input class="centerInputs" type="text" name="ticketRef" /></div>
+                    <div class="form-group"><label for="mprnRef">MPRN </label> <input class="centerInputs" type="text" name="mprnRef" /></div>
                     <button class="btn btn-lg buttonCenter">Search</button>
                 </form>
             </section>
     </div>
         
-<% include partials/footer %>
+<% include ../partials/footer %>

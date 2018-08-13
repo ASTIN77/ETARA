@@ -1,0 +1,17 @@
+<% include ../partials/header %>
+        
+    <!-- Display Ticket Upload Dialog -->
+    
+    <div class="jumbotron boxed">
+        <h2 class="searchHeader">Upload Meter Point Reference Numbers</h2>
+            <section class="boxDisplay divider">
+                <p>Use the file browser below to upload a <strong>New Meter Points</strong>.
+                Click <a href="/upload/mprnTemplate"><u>here</u></a> for an blank template.</p>
+                    <form action="/upload/mprns" method="POST" encType="multipart/form-data">
+                        <input type="file" name="file" accept="*.csv" /><br/><br/>
+                        <button class="btn btn-lg buttonCenter">Upload</button>
+                    </form>
+            </section>
+    </div>
+        
+<% include ../partials/footer %>

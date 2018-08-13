@@ -1,5 +1,6 @@
 const express = require("express"),
       router  = express.Router({mergeParams: true}),
+      csv      = require('csv-express'),
       Fault   = require('../models/fault'),
       Mprn    = require('../models/mprn'),
       middleware = require("../middleware/middleware");
@@ -7,7 +8,7 @@ const express = require("express"),
       // Report routes to be impletented here
       
 router.get("/", middleware.isLoggedIn, (req,res) =>{
-      res.render("reports");
+      res.render("reports/buildReport");
 });
 
 router.post("/query", (req,res) => {
@@ -58,9 +59,10 @@ router.post("/query", (req,res) => {
                         req.flash("error", "Something has went wrong. Please check and try again!");
                         res.render("index");
                       } else {
-                        res.render("reportResults", { queryResults: faultResults }) ;  
+                        res.render("reports/reportResults", { queryResults: faultResults }) ;  
                       }
                   });
+
 });
                             
 module.exports = router;

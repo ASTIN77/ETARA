@@ -15,7 +15,7 @@ router.get("/", middleware.checkCurrentUser, function (req,res){
 // LOGIN USER - GET ROUTE
 
 router.get ("/login", function(req,res) {
-    res.render("login");
+    res.render("index/login");
 });
 
 // LOGIN USER - POST ROUTE
@@ -50,7 +50,7 @@ router.get('/logout', middleware.logout, (req, res) => {
 // REGISTER USER - GET ROUTE
 router.get("/register", middleware.isLoggedIn, (req,res) => {
     
-    res.render("register"); 
+    res.render("index/register"); 
 });
 
 // REGISTER USER - POST ROUTE

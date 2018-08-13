@@ -8,7 +8,7 @@ const express = require("express"),
 // CREATE NEW TICKET - GET ROUTE
 
 router.get("/", middleware.isLoggedIn, (req, res) => {
-  res.render("new");
+  res.render("new/newTicket");
 });
 
 // CREATE TICKET WITH MPRN DETAILS - POST ROUTE
@@ -36,7 +36,7 @@ router.post("/mprn", middleware.isLoggedIn, (req, res) => {
                     req.flash("error", "Please enter a valid mprn!");
                     res.redirect("/tickets/");
                   } else {
-                    res.render("create", { mprn: foundMprn });
+                    res.render("new/createTicket", { mprn: foundMprn });
                   }
                 }
               });
@@ -68,7 +68,7 @@ router.post("/create", middleware.isLoggedIn, (req, res) => {
           Fault.create(newFault, (err, newFault) => {
             if (err) {
               req.flash("error", "Oops, Error Creating New Ticket. Please request assistance from your system administrator.");
-              res.render("index");
+              res.render("/");
             } else {
                   var response =  'Fault Ticket Reference SMSDM:  <a href="/search/'+ newFault._id +'">' + newFault.jobRef + '</a> has been successfully created.';
                   req.flash('success', response);

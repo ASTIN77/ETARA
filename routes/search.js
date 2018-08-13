@@ -30,21 +30,21 @@ router.post("/", middleware.isLoggedIn, (req,res) => {
         
         Fault.find(mprnQuery).populate("comments").exec(function(err, foundMprn){
             if(err){
-                req.flash("error", "Please provide a valid MPRN!");
+                req.flash("confirm", "Please provide a valid MPRN!");
                 res.redirect("/");
             } else {
             if (!foundMprn.length){
-                req.flash("error", "MPRN not found. Please provide a valid MPRN.");
+                req.flash("confirm", "No Tickets found for this Meter Point.");
                 res.redirect("/");
                 } else {
-                    res.render("results", {faults: foundMprn});
+                    res.render("search/results", {faults: foundMprn});
                 }
             }
         });
     } 
     
     if(!ticket.length && !mprn){ // if mpnr and ticket ref are both blank
-        req.flash("error", "Please provide a valid Ticket Reference or valid MPRN");
+        req.flash("error", "Please provide a valid Ticket Reference or valid Meter Point Reference Number.");
         res.redirect("/");
     }
 });
@@ -63,7 +63,7 @@ router.get("/:id", middleware.isLoggedIn, (req, res) => {
                 req.flash("error", "Please neter a valid mprn!");
                 res.redirect("back");
                 } else {
-                    res.render("show", {fault: foundFault, mprn: foundMprn} );
+                    res.render("search/show", {fault: foundFault, mprn: foundMprn} );
                     }
             });
         }

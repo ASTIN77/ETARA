@@ -30,7 +30,8 @@ html {
 }
 
 a.navbar-brand:hover,
-.nav.navbar-nav li a:hover {
+.nav.navbar-nav li a:hover,
+.nav.navbar-nav li a:focus {
 	color: #fff;
 	background-color: gray;
 	border-radius: 20px;
@@ -55,6 +56,15 @@ nav li {
 	margin: 0 30px;
 	border-radius: 20px;
 }
+
+.dark-menu ul {
+	background-color: #1B2B45;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+ }
 
 
 /* Job Box styling */
@@ -315,6 +325,7 @@ a {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 }
 
 .resultsGrid {
@@ -366,7 +377,8 @@ a {
 }
 
 .centerButton {
-	margin: 0 auto;
+	display: flex;
+	justify-content: center;
 }
 
 @media only screen and (max-width: 1600px) {

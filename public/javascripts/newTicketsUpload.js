@@ -1,5 +1,5 @@
-const json2csv    =       require('json2csv').parse,
-      Fault       =       require('../../models/fault');
+const json2csv    =       require('json2csv').parse;
+
 
 
 // CREATE JSON FILE TO DOWQNLOAD AND POPULATE

@@ -6,7 +6,7 @@ const express = require("express"),
 // CREATE NEW MPRN - GET ROUTE
 
 router.get("/", middleware.isLoggedIn, (req, res) => {
-  res.render("newMprn");
+  res.render("new/newMprn");
 });
 
 router.post("/create", middleware.isLoggedIn, (req, res) => {
@@ -30,7 +30,7 @@ router.post("/create", middleware.isLoggedIn, (req, res) => {
             if (err) {
               /*req.flash("error", "Oops, Error Creating Mprn. Please request assistance from your system administrator.");*/
               console.log(err.message);
-              res.render("index");
+              res.render("/");
             } else {
                   var response =  'Mprn: ' + newMprn.mprNo + ' has been successfully created.';
                   req.flash('success', response);

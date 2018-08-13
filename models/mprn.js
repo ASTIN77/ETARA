@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 var MprnSchema = new mongoose.Schema({
         mprNo: {type: Number, unique: true, required: true},
         siteName: String,
-        buildingNo: Number,
+        buildingNo: String,
         streetAddress: String,
         secondAddress: String,
         townCity: String,

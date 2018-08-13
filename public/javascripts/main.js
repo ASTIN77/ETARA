@@ -61,6 +61,7 @@ $(document).ready(function() {
   $(".navbar-default .navbar-nav li a").click(function(event) {
     $(this).blur();
   });
+  
 });
 
     
