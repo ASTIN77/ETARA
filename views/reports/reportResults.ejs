@@ -12,7 +12,6 @@
                     </div>
                 <div class="resultsBox"> 
                     <% queryResults.forEach(function(results){ %>
-                    <form>
                         <div class="row resultsBorder">
                             <div class="col-sm-1"><a id="jobRefLink" href="/search/<%= results._id %>"><%=results.jobRef %></a></div>
                             <div class="col-sm-1"><%= results.mprNo %></div>
@@ -26,12 +25,13 @@
                             <div class="col-sm-1"><%= results.siteDetails.postCode %></div>
                         </div>
                     <% }); %>
-                    </form>
     
                     <div class="pull-right-buttons">
-                        <a class="btn btn-md btn-warning" href="/reports/">Back</a>
-                        <a id="saveButton"class="btn btn-md btn-success" href="/reports/exportReport">Export</a>
+                        <button class="btn btn-md btn-warning" onclick="goBack()">Back</button>
                     </div>
+                    <script>  function goBack() {
+                        window.history.back();
+                        }</script>
                 </div>
         </div>
     </div>

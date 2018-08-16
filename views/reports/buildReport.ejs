@@ -41,9 +41,13 @@
                         <div class="form-group"><label for="streetAddress2">Address (2): </label><input type="text" name="siteDetails.streetAddress2" /></div>
                     </div>
                 </div>
+                
                 <div class="pull-right-buttons">
                     <a class="btn btn-md btn-warning" href="/">Back</a>
-                    <button id="saveButton"class="btn btn-md btn-success">Submit</button>
+                    <!--<button class="btn btn-md btn-info" formaction="/reports/exportQuery">Export</button>-->
+                    <input type="submit" class="btn btn-md btn-info" name="action" value="Export Report" />
+                    <!--<button id="saveButton"class="btn btn-md btn-success">Submit</button>-->
+                    <input type="submit" class="btn btn-md btn-success" name="action" value="Display Report" />
                 </div>
             </form>
         </section>

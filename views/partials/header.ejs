@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv=”X-UA-Compatible” content=”IE=edge”>
         <meta name="viewport" content="width=device-width" initial-scale="1">
+        <meta http-equiv="Cache-control" content="public">
         <title>Data Management AMR Repair & Trouble Ticketing Archive</title>
         <meta name="description" content="AMR Portal of SMS Plc" />
     	<meta property="og:url"           content="https://dm.astechit.net" />
@@ -63,7 +64,7 @@
                 <div>
                     <ul class="nav navbar-nav navbar-right">
                         <% if(currentUser){ %>
-                            <li class="nav-item nav-link"><a class=nav-link><i class="fas fa-user fa-lg"></i> <%= currentUser.username  %></a></li>
+                            <li class="nav-item nav-link"><a class=nav-link><i class="fas fa-user fa-lg"></i> <%= currentUser.firstName  %> <%=currentUser.lastName %></a></li>
                             <% if(currentUser.isAdmin){ %>
                                 <li class="nav-item"><a class="nav-link" href="/register">Create User</a></li>
                             <% } %>
@@ -71,7 +72,7 @@
                         <% } else { %>
                             <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
                         <% } %>
-                        <li class="nav-item"><a class="nav-link" href="/">Help</a></li>
+                       <!-- <li class="nav-item"><a class="nav-link" href="/">Help</a></li>-->
                     </ul>
                 </div>
         	</nav>

@@ -21,7 +21,7 @@
     "express-session": "^1.15.6",
     "fast-csv": "^2.4.1",
     "full-icu": "^1.2.1",
-    "json2csv": "^4.1.6",
+    "json2csv": "^4.2.1",
     "method-override": "^2.3.10",
     "mongoose": "^5.2.4",
     "mongoose-sequence": "^4.0.1",

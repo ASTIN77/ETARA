@@ -1,8 +1,7 @@
-const express = require("express"),
-      router  = express.Router({mergeParams: true}),
-      csv      = require('csv-express'),
-      Fault   = require('../models/fault'),
-      Mprn    = require('../models/mprn'),
+const express             = require("express"),
+      router              = express.Router({mergeParams: true}),
+      json2csv            = require('json2csv').parse,
+      Fault               = require('../models/fault'),
       middleware = require("../middleware/middleware");
       
       // Report routes to be impletented here
@@ -12,14 +11,7 @@ router.get("/", middleware.isLoggedIn, (req,res) =>{
 });
 
 router.post("/query", (req,res) => {
-  
-/*    if(Object.keys(req.body).length ===0) {
-        req.flash("error", "Nothing selected. Please enter a search query!");
-        res.render("index");
-        }*/
-      
       // if query specifies a requested Date
-      
       if(req.body.requestedDate.length){
             var startDate = new Date(req.body.requestedDate); /*+ "T00:00:00Z";*/
             startDate.setHours(0,0,0,0);
@@ -40,7 +32,9 @@ router.post("/query", (req,res) => {
                 if (req.body.jobRef){
                     reportQuery.jobRef = Number(req.body.jobRef);
                 }
+                
             }
+            delete reportQuery.action; // remove the action attribute sent over depending on button press from query
               
                 // Query using aggregate method to obtain mprn details for each record found.
                   Fault.aggregate([
@@ -59,10 +53,27 @@ router.post("/query", (req,res) => {
                         req.flash("error", "Something has went wrong. Please check and try again!");
                         res.render("index");
                       } else {
-                        res.render("reports/reportResults", { queryResults: faultResults }) ;  
+                        if (req.body.action ==='Export Report') {
+                                                                        // Create Headers Based On Fault Schema
+                          const fields = ['mprNo', 'siteDetails.siteName', 'siteDetails.buildingNo', 'sitDetails.streetAddress', 'siteDetails.secondAddress', 
+                                          'siteDetails.townCity', 'siteDetails.postCode' , 'siteDetails.supplier', 'siteDetails.siteContactName',
+                                          'siteDetails.siteContactNo', 'siteDetails.msn', 'siteDetails.meterModel', 'siteDetails.meterType', 'siteDetails.meterMake', 
+                                          'siteDetails.admSerial', 'siteDetails.admImei', 'siteDetails.admInstallDate'];
+
+                          const opts = { fields };
+                          // Convert JSON to CSV File
+                          /*const json2csvParser = new Json2csvParser({ fields});*/
+                          const csv = json2csv(faultResults, opts);
+                          
+                          //Open on users device with filename "reportResults.csv"
+                          res.set("Content-Disposition", "attachment;filename=reportResults.csv");
+                          res.set('Content-Type', 'text/csv');
+                          res.status(200).send(csv);
+                        } else {
+                          res.render("reports/reportResults", { queryResults: faultResults }) ;  
+                        }
                       }
                   });
-
 });
-                            
+
 module.exports = router;
