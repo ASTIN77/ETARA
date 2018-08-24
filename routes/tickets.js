@@ -101,7 +101,6 @@ router.put("/:id", middleware.isLoggedIn, (req, res) => {
     } else {
       // Get latest comment and update
       if (req.body.comment.text) { // make sure a comment has been added
-
         Comment.create(req.body.comment, (err, comment) => {
           if (err) {
             req.flash("error", err.message);
@@ -110,6 +109,7 @@ router.put("/:id", middleware.isLoggedIn, (req, res) => {
             comment.dmAuthor.id = req.user._id;
             comment.dmAuthor.username = req.user.username;
             comment.save();
+            console.log(comment);
             // Push comments to the newly created Fault & Save
             updatedFault.comments.push(comment);
             updatedFault.save(); // Save the fault with the fault note referenced

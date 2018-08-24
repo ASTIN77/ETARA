@@ -1,0 +1,17 @@
+<% include ../partials/header %>
+        
+    <!-- Display Ticket Upload Dialog -->
+    
+    <div class="jumbotron boxed">
+        <h2 class="searchHeader">Update Fault Tickets</h2>
+            <section class="boxDisplay divider">
+                <p>Use the uploader below to <strong>Update Tickets</strong>.
+                Click <a href="/upload/updateTicketsTemplate"><u>here</u></a> for an blank template.</p>
+                    <form action="/upload/updateTickets" method="POST" encType="multipart/form-data">
+                        <input type="file" name="file" accept="*.csv" /><br/><br/>
+                        <button class="btn btn-lg buttonCenter">Upload</button>
+                    </form>
+            </section>
+    </div>
+        
+<% include ../partials/footer %>
