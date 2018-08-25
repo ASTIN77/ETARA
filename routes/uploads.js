@@ -110,7 +110,7 @@ router.post("/mprns", middleware.isLoggedIn, (req,res) => {
      .on("data", (data) => {
          data['_id'] = new mongoose.Types.ObjectId();
          data.dmAuthor = { id: req.user._id, username: req.user.username };
-        mprns.push(data);
+         mprns.push(data);
      })
      .on("end", () => {
          Mprn.create(mprns, (err, documents) => {
@@ -146,24 +146,18 @@ router.post("/cancellations", middleware.isLoggedIn, (req,res) => {
      })
      .on("end", () => {
          
-         for(var i = 0; i < cancellations.length; i++){
-
-                let jobRef = cancellations[i].jobRef;
-                let status = cancellations[i].status;
-                let isCancelledReason = cancellations[i].isCancelledReason;
+            // Iterate through each row and cancel Fault ticket 
+            cancellations.forEach(function(item){
+                var jobRef = item.jobRef, status = item.status, isCancelledReason = item.isCancelledReason;
                 let updates = { 'status': status, 'isCancelledReason': isCancelledReason };
-
-          /*  for(var j = 0; j < cancellations.length; j++){*/
                 
                 Fault.update({'jobRef': jobRef}, updates, (err, cancelled) =>{
                     if (err) {
-                        console.log(err, err.message);
                         req.flash("error", "Please check the uploaded file for errors.");
                         res.redirect("/");
                     }
                 });
-         /*   }*/
-        }
+            });
             req.flash("success", " Fault Ticket(s) have been successfully cancelled.");
             res.redirect("/");
     });
@@ -187,32 +181,23 @@ router.post("/updateTickets", middleware.isLoggedIn, (req,res) => {
      .on("data", (data) => {
              //  The following line of code sanitizes the visit notes section 
              //  to remove any scripts that a user may inject
-            /*data.comments.text = req.sanitize(data.comments);*/
             updates.push(data);
      })
      .on("end", () => {
          
-         for(var i=0; i < updates.length; i++) {
-
-                var jobRef = Number(updates[i].jobRef);
-                var status = updates[i].status;
-                var appDate = Date(updates[i].appDate);
-                var attendedDate = Date(updates[i].attendedDate);
-                var faultCat = updates[i].faultCat;
-                var meterRead = updates[i].meterRead;
-                var comments = { 'text': '' };
-                comments.text = updates[i].comment;
-                
-                console.log(comments);
-
-                
+            // Iterate through each row and update fault         
+             updates.forEach( (item) => {
+                var jobRef = Number(item.jobRef), status = item.status, appDate = Date(item.appDate),
+                    attendedDate = Date(item.attendedDate), faultCat = item.faultCat,
+                    meterRead = item.meterRead,comments = { text: item.comment };
+ 
                 var faultUpdatesFields = { 'jobRef': jobRef, 'status': status, 'appDate': appDate, 'attendedDate': attendedDate, 'faultCat': faultCat,
                                 'meterRead': meterRead};
                 
-                var updatedFaults = Fault.findOneAndUpdate( {'jobRef': jobRef }, faultUpdatesFields, (err, updatedFault) => {
+                Fault.findOneAndUpdate( {'jobRef': jobRef }, faultUpdatesFields, (err, updatedFault) => {
                     if (err) {
                         req.flash("error", "Please check the updates file for errors.");
-                        /*res.redirect("/");*/
+                        res.redirect("/");
                     } else {
                         // Construct A new Comment
                         // Get latest comment and update
@@ -223,32 +208,19 @@ router.post("/updateTickets", middleware.isLoggedIn, (req,res) => {
                                      req.flash("error", err.message);
                                      res.redirect("/");
                                      } else {
-                                         console.log(comments);
                                          // Push comments to the newly created Fault & Save
                                          comment.dmAuthor.id = req.user._id;
                                          comment.dmAuthor.username = req.user.username;
-                                         console.log(comment);
                                          comment.save();
                                           // Save the fault with the fault note referenced
-                                        
                                      }
-                                    
                                      updatedFault.comments.push(comment);
                                      updatedFault.save();
                                  });
-                        
-                            
                             }
-
                         }
-                        
-                        
                 });
-                
-         }
-         
-            
-        
+         });
     });
             
     req.flash("success", " Fault Ticket(s) have been successfully updated.");
