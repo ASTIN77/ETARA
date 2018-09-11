@@ -34,7 +34,7 @@ a.navbar-brand:hover,
 .nav.navbar-nav li a:hover,
 .nav.navbar-nav li a:focus {
 	color: #fff;
-	background-color: gray;
+	background-color: #5383A0;
 	border-radius: 20px;
 }
 

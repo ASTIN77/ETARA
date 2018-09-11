@@ -23,7 +23,7 @@
     "full-icu": "^1.2.1",
     "json2csv": "^4.2.1",
     "method-override": "^2.3.10",
-    "mongoose": "^5.2.4",
+    "mongoose": "^5.2.9",
     "mongoose-sequence": "^4.0.1",
     "passport": "^0.4.0",
     "passport-local-mongoose": "^5.0.0",
