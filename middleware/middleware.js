@@ -8,7 +8,7 @@ middlewareObj.checkCurrentUser = function(req,res,next){
     return res.redirect("/login");
 };
 
-middlewareObj.isLoggedIn = function(req,res,next){
+middlewareObj.isLoggedIn = (req,res,next) => {
     if(req.isAuthenticated()){
         return next();
     }
@@ -16,7 +16,7 @@ middlewareObj.isLoggedIn = function(req,res,next){
     return res.redirect("/login");
 };
 
-middlewareObj.logout = function (req, res, next) {
+middlewareObj.logout = (req, res, next) => {
         req.logout();
         req.flash("success", "You are now logged out.");
         return next();

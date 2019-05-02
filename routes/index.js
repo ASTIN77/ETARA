@@ -8,19 +8,19 @@ const   express             =       require("express"),
 
 // INDEX ROUTE
     
-router.get("/", middleware.checkCurrentUser, function (req,res){
+router.get("/",  middleware.checkCurrentUser, (req,res) => { // missing 
     res.render("index");
 }) ;
 
 // LOGIN USER - GET ROUTE
 
-router.get ("/login", function(req,res) {
+router.get ("/login", (req,res) => {
     res.render("index/login");
 });
 
 // LOGIN USER - POST ROUTE
 
-router.post("/login", function(req, res, next){
+router.post("/login", (req, res, next) => {
      passport.authenticate('local', function(err, user, info) {
             if (err) { 
                 req.flash("error", "Oops, something went wrong. Please try again!");
@@ -43,19 +43,19 @@ router.post("/login", function(req, res, next){
 
 // LOGOUT USER - GET ROUTE
 
-router.get('/logout', middleware.logout, (req, res) => {
+router.get('/logout', middleware.logout, (req, res) => { 
             res.redirect('/login');
         });
 
 // REGISTER USER - GET ROUTE
-router.get("/register", middleware.isLoggedIn, (req,res) => {
+router.get("/register", middleware.isLoggedIn, (req,res) => { 
     
     res.render("index/register"); 
 });
 
 // REGISTER USER - POST ROUTE
 
-router.post("/register", middleware.isLoggedIn, (req,res) => {
+router.post("/register", middleware.isLoggedIn, (req,res) => { 
 
     var newUser = new User({firstName: req.body.firstName, lastName: req.body.lastName, 
                             username: req.body.username, email: req.body.email, isAdmin: req.body.isAdmin, isManager: req.body.isManager});

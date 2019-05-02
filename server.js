@@ -4,7 +4,9 @@ const express             =       require('express'),
       cookieParser        =       require('cookie-parser'),
       bodyParser          =       require('body-parser'),
       mongoose            =       require('mongoose'),
+      sql                 =       require('mssql'),
       session             =       require('express-session'),
+      helmet              =       require('helmet'), 
       memoryStore         =       require('session-memory-store')(session),
       expressSanitizer    =       require("express-sanitizer"),
       passport            =       require('passport'),
@@ -22,15 +24,36 @@ const express             =       require('express'),
       mongoose.Promise    =       global.Promise;
 
 
-// MONGOOSE DATABASE CONNECTION SETUP
+// SQL DATABASE CONNECTION STARTUP
+    const config = {
+            user: "administrator",
+            password: "Chalmers77",
+            server: 'smsdm.cvnj3jolntgc.eu-west-1.rds.amazonaws.com',
+            database: 'smsdm'
+    };
 
-  mongoose.connect('mongodb://' + process.env.IP + ':' + '27017/smsdm', {useNewUrlParser: true});
+var connection = new sql.ConnectionPool(config);
+var request = new sql.Request(connection);
+
+connection.connect(function (err) {
+
+    if (err) {
+    
+        console.log(err);
+        
+        return;
+    }
+});
 
 
 // SETUP ENVIROMENTALS
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
+app.use(helmet.hidePoweredBy());
+app.use(helmet.xssFilter());
+app.use(helmet.noSniff());
+app.use(helmet.ieNoOpen());
 app.use(cookieParser('OnlyAmigaMakesItPossible'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method")),
