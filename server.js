@@ -24,26 +24,7 @@ const express             =       require('express'),
       mongoose.Promise    =       global.Promise;
 
 
-// SQL DATABASE CONNECTION STARTUP
-    const config = {
-            user: "administrator",
-            password: "Chalmers77",
-            server: 'smsdm.cvnj3jolntgc.eu-west-1.rds.amazonaws.com',
-            database: 'smsdm'
-    };
-
-var connection = new sql.ConnectionPool(config);
-var request = new sql.Request(connection);
-
-connection.connect(function (err) {
-
-    if (err) {
-    
-        console.log(err);
-        
-        return;
-    }
-});
+mongoose.connect(process.env.SMSDMDATABASEURL,{ useNewUrlParser: true, useUnifiedTopology: true });
 
 
 // SETUP ENVIROMENTALS
