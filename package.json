@@ -1,7 +1,7 @@
 {
-  "name": "tm470",
+  "name": "arrtaCRM",
   "version": "1.0.0",
-  "description": "TM470 Project - A Job Ticketing System got Gas AMR Faults",
+  "description": "A Job Ticketing System got Gas AMR Faults",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
