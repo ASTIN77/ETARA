@@ -26,7 +26,7 @@ const express             =       require('express'),
 
 const dotenv = require('dotenv');
 dotenv.config();
-mongoose.connect(process.env.SMSDMDATABASEURL,{ useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.SMSDMDATABASEURL,{ useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 
 // SETUP ENVIROMENTALS
