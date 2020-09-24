@@ -48,8 +48,8 @@ router.get('/logout', middleware.logout, (req, res) => {
         });
 
 // REGISTER USER - GET ROUTE
-router.get("/register", middleware.isLoggedIn, (req,res) => { 
-    
+// router.get("/register", middleware.isLoggedIn, (req,res) => { 
+    router.get("/register", (req,res) => {
     res.render("index/register"); 
 });
 
