@@ -55,8 +55,8 @@ router.get('/logout', middleware.logout, (req, res) => {
 
 // REGISTER USER - POST ROUTE
 
-router.post("/register", middleware.isLoggedIn, (req,res) => { 
-
+// router.post("/register", middleware.isLoggedIn, (req,res) => { 
+    router.post("/register", (req,res) => { 
     var newUser = new User({firstName: req.body.firstName, lastName: req.body.lastName, 
                             username: req.body.username, email: req.body.email, isAdmin: req.body.isAdmin, isManager: req.body.isManager});
     User.register(newUser, req.body.password, (err, user) => {
