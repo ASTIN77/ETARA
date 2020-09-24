@@ -24,6 +24,8 @@ const express             =       require('express'),
       mongoose.Promise    =       global.Promise;
 
 
+const dotenv = require('dotenv');
+dotenv.config();
 mongoose.connect(process.env.SMSDMDATABASEURL,{ useNewUrlParser: true, useUnifiedTopology: true });
 
 
