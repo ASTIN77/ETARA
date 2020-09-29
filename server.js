@@ -68,7 +68,8 @@ app.use("/mprns", mprnRoutes);
     
 app.set('port', process.env.PORT);  
 
-   
-app.listen(app.get('port'), function(){
-    console.log('Artta SMS Portal Successfully Started');
+
+// Electronic Ticketing And Reporting Application
+app.listen(3000, function(){
+    console.log('ETARA Portal Successfully Started');
 });

@@ -29,6 +29,6 @@ var FaultSchema = new mongoose.Schema({
 
     });
     
-FaultSchema.plugin(AutoIncrement, {inc_field: 'jobRef', startAt: 60000});
+FaultSchema.plugin(AutoIncrement, {inc_field: 'jobRef', start_seq: 60000});
     
 module.exports = mongoose.model("Fault", FaultSchema);

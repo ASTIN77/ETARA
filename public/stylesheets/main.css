@@ -5,17 +5,18 @@ html {
 }
 
 .dmHeader {
-	background-color: #1B2B45;
+	background-color: #1B2B45;;
 }
 
 .navbar {
-	background-color: #1B2B45;
+	background-color: #1B2B45;;
 	color: #fff;
 }
 
 .nav.navbar-brand,
 .nav.navbar-brand i {
 	text-align: center;
+	margin-top: 100px;
 }
 
 .nav a.navbar-brand,
@@ -26,8 +27,12 @@ html {
 }
 
 .navbar-default .navbar-brand {
-	color: #fff;
+	color: #fff;f54242
 	margin-top: 8px;
+}
+
+a.navbar.brand {
+	margin-top: 50px;
 }
 
 a.navbar-brand:hover,
@@ -52,6 +57,7 @@ nav .navlink {
 nav li {
 	padding: 10px;
 }
+
 
 .right-spacer {
 	margin-right: 50px;
