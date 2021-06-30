@@ -74,5 +74,5 @@ app.set('port', process.env.PORT);
 
 // Electronic Ticketing And Reporting Application
 app.listen(app.get('port'), () => {
-    console.log('ETARA Portal Successfully Started' + 'on port' + app.get('port'));
+    console.log('ETARA Portal Successfully Started' + 'on PORT ' + app.get('port'));
 });
