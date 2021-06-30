@@ -46,7 +46,6 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
                         foundFault = "-";
                     }
                 })
-                console.log(foundMprn);
                 res.render("search/results", { faults: foundMprn });
 
 
