@@ -5,14 +5,14 @@ const express = require("express"),
     middleware = require("../middleware/middleware");
 
 
-router.post("/", middleware.isLoggedIn, (req, res) => {
+router.post("/", middleware.isLoggedIn, (req, res, next) => {
 
     let ticket = req.body.ticketRef, mprn = req.body.mprnRef;
     let ticketQuery = { 'jobRef': ticket }, mprnQuery = { 'mprNo': mprn };
 
     if (ticket.length) { // If ticket input field is not empty/undefined
 
-        Fault.findOne(ticketQuery).populate("comments").exec(function (err, foundFault) {
+        Fault.findOne(ticketQuery).populate("comments").exec(function (err, foundFault, next) {
             if (err) {
                 req.flash("error", "Please provide a valid Ticket Reference!");
                 res.redirect("/");
@@ -28,7 +28,7 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
     }
     if (mprn) { // If mprn number input box is not empty/undefined
 
-        Mprn.find(mprnQuery).populate("comments").exec((err, foundMprn) => {
+        Mprn.find(mprnQuery).populate("comments").exec((err, foundMprn, next) => {
             if (err) {
                 req.flash("confirm", "Please provide a valid MPRN!");
                 res.redirect("/");
@@ -38,15 +38,16 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
                     res.redirect("/");
                 }
 
-                Fault.find(mprnQuery).populate("comments").exec((err, foundFault) => {
+                Fault.find(mprnQuery).populate("comments").exec((err, foundFault, next) => {
                     if (err) {
                         req.flash("error", "Something went wrong. Please try again.")
                     }
                     if (!foundFault.length) {
                         foundFault = "-";
                     }
+                    console.log(foundFault);
+                    res.render("search/results", { faults: foundFault, mprn: foundMprn });
                 })
-                res.render("search/results", { faults: foundFault });
 
 
             }
