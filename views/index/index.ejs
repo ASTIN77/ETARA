@@ -1,18 +1,50 @@
 <% include ../partials/header %>
-        
-    <!-- Display Job Search Box -->
-    
-    <div class="jumbotron boxed">
-        <h2 class="searchHeader">Welcome</h2>
-            <section class="boxDisplay divider">
-                <form action="/search/" method="post">
-                    <div class="form-group"><label for="ticketRef">Job Ref </label> <input class="centerInputs" type="text" name="ticketRef" /></div>
-                    <div class="form-group"><label for="mprnRef">MPRN </label> <input class="centerInputs" type="text" name="mprnRef" /></div>
-                    <div class="form-group"><label for="mprnRef">Post Code </label> <input class="centerInputs" type="text" name="postCode" /></div>
-                    <div class="form-group"><label for="mprnRef">Address </label> <input class="centerInputs" type="text" name="address" /></div>
-                    <button class="btn btn-lg buttonCenter">Search</button>
-                </form>
-            </section>
-    </div>
-        
+
+<!-- Display Job Search Box -->
+
+<div class="jumbotron boxed">
+  <h2 class="searchHeader">Welcome</h2>
+  <section class="boxDisplay divider">
+    <form action="/search/" method="post">
+      <div class="form-group">
+        <label for="ticketRef">Job Ref </label>
+        <input
+          class="centerInputs"
+          type="text"
+          name="ticketRef"
+          placeholder="Try 60003"
+        />
+      </div>
+      <div class="form-group">
+        <label for="mprnRef">MPRN </label>
+        <input
+          class="centerInputs"
+          type="text"
+          name="mprnRef"
+          placeholder="910371561"
+        />
+      </div>
+      <div class="form-group">
+        <label for="mprnRef">Post Code </label>
+        <input
+          class="centerInputs"
+          type="text"
+          name="postCode"
+          placeholder="PA61 7YW"
+        />
+      </div>
+      <div class="form-group">
+        <label for="mprnRef">Address </label>
+        <input
+          class="centerInputs"
+          type="text"
+          name="address"
+          placeholder="Forestside Rd"
+        />
+      </div>
+      <button class="btn btn-lg buttonCenter">Search</button>
+    </form>
+  </section>
+</div>
+
 <% include ../partials/footer %>
