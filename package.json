@@ -2,6 +2,9 @@
   "name": "arrtaCRM",
   "version": "1.0.0",
   "description": "A Job Ticketing System got Gas AMR Faults",
+  "engines": {
+    "node": "16.3.0"
+  },
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
