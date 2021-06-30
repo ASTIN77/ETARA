@@ -47,7 +47,7 @@ app.use(methodOverride("_method")),
         store: new memoryStore()
     }));
 app.use(flash());
-app.set('port', 3000);
+app.set('port', process.env.PORT);
 app.use(expressSanitizer());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -73,6 +73,6 @@ app.set('port', process.env.PORT);
 
 
 // Electronic Ticketing And Reporting Application
-app.listen(3000, () => {
+app.listen(app.get('PORT'), () => {
     console.log('ETARA Portal Successfully Started' + 'on port' + app.get('port'));
 });
