@@ -18,7 +18,7 @@
     "cookie-parser": "^1.4.3",
     "csv-express": "^1.2.2",
     "dotenv": "^8.2.0",
-    "ejs": "^2.6.1",
+    "ejs": "^3.1.7",
     "express": "^4.16.3",
     "express-fileupload": "^1.2.1",
     "express-sanitizer": "^1.0.4",
