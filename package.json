@@ -29,7 +29,7 @@
     "json2csv": "^4.2.1",
     "lodash": "^4.17.20",
     "method-override": "^2.3.10",
-    "mongoose": "^5.8.7",
+    "mongoose": "^5.13.15",
     "mongoose-sequence": "^5.2.2",
     "mssql": "^4.3.5",
     "passport": "^0.4.0",
