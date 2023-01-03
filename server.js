@@ -47,7 +47,6 @@ app.use(methodOverride("_method")),
         store: new memoryStore()
     }));
 app.use(flash());
-app.set('port', process.env.PORT || 3000);
 app.use(expressSanitizer());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -69,10 +68,31 @@ app.use("/upload", uploadRoutes);
 app.use("/reports", reportRoutes);
 app.use("/mprns", mprnRoutes);
 
-app.set('port', process.env.PORT);
+app.set('port', process.env.PORT || 3000);
 
 
-// Electronic Ticketing And Reporting Application
-app.listen(app.get('port'), () => {
-    console.log('ETARA Portal Successfully Started' + 'on PORT ' + app.get('port'));
-});
+// Initialize MongoDB Databse connection
+// & start listening on process.env.PORT
+
+
+const connectDB = async() => {
+
+    try {
+      const conn = mongoose.connect(process.env.ETARADATABASEURL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+      });
+    } catch (error) {
+      console.log(error);
+      process.exit(1);
+    }
+  }
+  
+  connectDB().then(() => {
+  
+    app.listen(app.get("port"), function () {
+      console.log("Successfully listening on " + app.get("port"));
+    });
+  
+  });
