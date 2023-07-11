@@ -1,20 +1,22 @@
-<% include ../partials/header %>
+<%- include ('../partials/header') %>
 
     <!-- Display Job Search Box -->
-    
+
     <div class="jumbotron boxed">
-    <form action="/login" method="POST">
-        <div class="boxDisplay">
-        <h2>Login</h2>
-            <section class="divider centerInputs">
-                <div class="form-group"><label>Username: </label> <input type="text" name="username" value="testuser" /></div>
-                <div class="form-group"><label>Password: </label> <input type="password" name="password" value="testuser123" /></div>
-                <a href="/forgottenPassword">Forgot Password??</a>
-            </section>
-            <button class="btn btn-lg buttonCenter">Login</button>
+        <form action="/login" method="POST">
+            <div class="boxDisplay">
+                <h2>Login</h2>
+                <section class="divider centerInputs">
+                    <div class="form-group"><label>Username: </label> <input type="text" name="username"
+                            value="testuser" /></div>
+                    <div class="form-group"><label>Password: </label> <input type="password" name="password"
+                            value="testuser123" /></div>
+                    <a href="/forgottenPassword">Forgot Password??</a>
+                </section>
+                <button class="btn btn-lg buttonCenter">Login</button>
         </form>
-        </div>
+    </div>
     </div>
 
 
-<% include ../partials/footer %>
+    <%- include ('../partials/footer') %>

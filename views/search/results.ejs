@@ -1,46 +1,55 @@
-<% include ../partials/header %>
+<%- include ('../partials/header') %>
 
-<div class="jumbotron boxed">
-  <div class="resultsGrid">
-    <div class="resultsHeader">
-      <div class="row">
-        <div class="col-md-2">Job Ref</div>
-        <div class="col-md-2">Mprn</div>
-        <div class="col-md-2">Fault Category</div>
-        <div class="col-md-2">Appointment Date</div>
-        <div class="col-md-2">Attended Date</div>
-        <div class="col-md-2">Status</div>
+  <div class="jumbotron boxed">
+    <div class="resultsGrid">
+      <div class="resultsHeader">
+        <div class="row">
+          <div class="col-md-2">Job Ref</div>
+          <div class="col-md-2">Mprn</div>
+          <div class="col-md-2">Fault Category</div>
+          <div class="col-md-2">Appointment Date</div>
+          <div class="col-md-2">Attended Date</div>
+          <div class="col-md-2">Status</div>
+        </div>
       </div>
+      <% faults.forEach(function(results){ %>
+        <div class="row resultsBorder">
+          <div class="col-md-2">
+            <a id="jobRefLink" href="/search/<%= results._id %>">
+              <%=results.jobRef %>
+            </a>
+          </div>
+          <div class="col-md-2">
+            <%=results.mprNo %>
+          </div>
+          <div class="col-md-2">
+            <%= results.faultCat %>
+          </div>
+          <% if (results.appDate){ %>
+
+            <div class="col-md-2">
+              <%= results.appDate.toLocaleDateString() %>
+            </div>
+            <% } else { %>
+              <div class="col-md-2">-</div>
+              <% } %>
+                <% if (results.attendedDate){ %>
+
+                  <div class="col-md-2">
+                    <%= results.attendedDate.toLocaleDateString() %>
+                  </div>
+                  <% } else { %>
+                    <div class="col-md-2">-</div>
+                    <% } %>
+                      <div class="col-md-2">
+                        <%= results.status %>
+                      </div>
+        </div>
+        <% }) %>
     </div>
-    <% faults.forEach(function(results){ %>
-    <div class="row resultsBorder">
-      <div class="col-md-2">
-        <a id="jobRefLink" href="/search/<%= results._id %>"
-          ><%=results.jobRef %></a
-        >
-      </div>
-      <div class="col-md-2"><%=results.mprNo %></div>
-      <div class="col-md-2"><%= results.faultCat %></div>
-      <% if (results.appDate){ %>
-
-      <div class="col-md-2"><%= results.appDate.toLocaleDateString() %></div>
-      <% } else { %>
-      <div class="col-md-2">-</div>
-      <% } %> <% if (results.attendedDate){ %>
-
-      <div class="col-md-2">
-        <%= results.attendedDate.toLocaleDateString() %>
-      </div>
-      <% } else { %>
-      <div class="col-md-2">-</div>
-      <% } %>
-      <div class="col-md-2"><%= results.status %></div>
+    <div class="row alignResultsButton">
+      <a class="btn btn-danger btn-lg pull-right" href="/">Back</a>
     </div>
-    <% }) %>
   </div>
-  <div class="row alignResultsButton">
-    <a class="btn btn-danger btn-lg pull-right" href="/">Back</a>
-  </div>
-</div>
 
-<% include ../partials/footer %>
+  <%- include ('../partials/footer') %>

@@ -1,124 +1,185 @@
-<% include ../partials/header %>
+<%- include ('../partials/header') %>
 
     <!-- Display Fault Ticket Details -->
 
-    
+
     <section id="newJob" class="boxDialog">
         <section class="jobDetails">
             <a href="/" title="Close" class="close">X</a>
-                <form action="/tickets/<%= fault._id %>?_method=PUT" method="POST">
+            <form action="/tickets/<%= fault._id %>?_method=PUT" method="POST">
                 <div class="siteDetails">
                     <div class="divider">
-                        <div class="form-group"><label for="jobRef">Job Ref</label> <input class="lockDetails" type="text" name="fault[jobRef]" value="<%= fault.jobRef %>" /></div>
-                        <div class="form-group"><label for="results">MPRN</label> <input class="lockDetails" type="text" name="mprn[mprNo]" value="<%= mprn.mprNo %>" /></div>
-                        <div class="form-group"><label for="supplier">Supplier</label> <input class="lockFields" type="text" name="mprn[supplier]" value="<%= mprn.supplier %>" /></div>
+                        <div class="form-group"><label for="jobRef">Job Ref</label> <input class="lockDetails"
+                                type="text" name="fault[jobRef]" value="<%= fault.jobRef %>" /></div>
+                        <div class="form-group"><label for="results">MPRN</label> <input class="lockDetails" type="text"
+                                name="mprn[mprNo]" value="<%= mprn.mprNo %>" /></div>
+                        <div class="form-group"><label for="supplier">Supplier</label> <input class="lockFields"
+                                type="text" name="mprn[supplier]" value="<%= mprn.supplier %>" /></div>
                     </div>
                     <div class="divider">
-                        <div class="form-group"><label for="siteName">Site Name</label> <input class="lockFields" type="text" name="mprn[siteName]" value="<%= mprn.siteName %>" /></div>
-                        <div class="form-group"><label for="buildingNo">Building No</label> <input class="lockFields" type="text" name="mprn[buildingNo]" value="<%= mprn.buildingNo %>" /></div>
-                        <div class="form-group"><label for="streetAddress">Street (Line 1)</label> <input class="lockFields" type="text" name="mprn[streetAddress1]" value="<%= mprn.streetAddress %>" /></div>
-                        <div class="form-group"><label for="streetAddress2">Street (Line 2)</label><input class="lockFields" type="text" name="mprn[streetAddress2]" value="<%= mprn.secondAddress %>" /></div>
+                        <div class="form-group"><label for="siteName">Site Name</label> <input class="lockFields"
+                                type="text" name="mprn[siteName]" value="<%= mprn.siteName %>" /></div>
+                        <div class="form-group"><label for="buildingNo">Building No</label> <input class="lockFields"
+                                type="text" name="mprn[buildingNo]" value="<%= mprn.buildingNo %>" /></div>
+                        <div class="form-group"><label for="streetAddress">Street (Line 1)</label> <input
+                                class="lockFields" type="text" name="mprn[streetAddress1]"
+                                value="<%= mprn.streetAddress %>" /></div>
+                        <div class="form-group"><label for="streetAddress2">Street (Line 2)</label><input
+                                class="lockFields" type="text" name="mprn[streetAddress2]"
+                                value="<%= mprn.secondAddress %>" /></div>
                     </div>
                     <div class="divider">
-                        <div class="form-group"><label for="town">Town/City</label><input class="lockFields" type="text" name="mprn[townCity]" value="<%= mprn.townCity %>" /></div>
-                        <div class="form-group"><label for="postCode">Post Code</label><input class="lockFields" type="text" name="mprn[postCode]" value="<%= mprn.postCode %>" /></div>
-                        <div class="form-group"><label for="siteContact">Site Contact</label><input class="lockFields" type="text" name="mprn[siteContactName]" value="<%= mprn.siteContactName %>" /></div>
-                        <div class="form-group"><label for="contactNo">Contact No.</label><input class="lockFields" type="text" name="mprn[siteContactNo]" value="<%= mprn.siteContactNo %>" /></div>
+                        <div class="form-group"><label for="town">Town/City</label><input class="lockFields" type="text"
+                                name="mprn[townCity]" value="<%= mprn.townCity %>" /></div>
+                        <div class="form-group"><label for="postCode">Post Code</label><input class="lockFields"
+                                type="text" name="mprn[postCode]" value="<%= mprn.postCode %>" /></div>
+                        <div class="form-group"><label for="siteContact">Site Contact</label><input class="lockFields"
+                                type="text" name="mprn[siteContactName]" value="<%= mprn.siteContactName %>" /></div>
+                        <div class="form-group"><label for="contactNo">Contact No.</label><input class="lockFields"
+                                type="text" name="mprn[siteContactNo]" value="<%= mprn.siteContactNo %>" /></div>
                     </div>
-                     <% if (currentUser.isAdmin || currentUser.isManager) { %>
+                    <% if (currentUser.isAdmin || currentUser.isManager) { %>
                         <div class="divider">
                             <div class="pull-right">
                                 <a id="unlockOptions" class="btn btn-sm btn-info">Unlock</a>
                                 <button class="btn btn-sm btn-danger" form="adminOptions">Delete</button>
                             </div>
                         </div>
-                    <% } %>
+                        <% } %>
                 </div>
                 <hr>
                 <div class="assetDetails">
                     <div class="divider">
-                        <div class="form-group"><label for="msn">Meter Serial</label><input class="lockFields" type="text" name="mprn[msn]" value="<%= mprn.msn %>" /></div>
-                        <div class="form-group"><label for="meterModel">Meter Model</label><input class="lockFields" type="text" name="mprn[meterModel]" value="<%= mprn.meterModel %>" /></div>
-                        <div class="form-group"><label for="meterMake">Meter Make</label><input class="lockFields" type="text" name="mprn[meterMake]" value="<%= mprn.meterMake %>" /></div>
-                        <div class="form-group"><label for="admInstallDate">Appointment</label><input class="lockUpdates" type="date" name="fault[appDate]" /></div>
+                        <div class="form-group"><label for="msn">Meter Serial</label><input class="lockFields"
+                                type="text" name="mprn[msn]" value="<%= mprn.msn %>" /></div>
+                        <div class="form-group"><label for="meterModel">Meter Model</label><input class="lockFields"
+                                type="text" name="mprn[meterModel]" value="<%= mprn.meterModel %>" /></div>
+                        <div class="form-group"><label for="meterMake">Meter Make</label><input class="lockFields"
+                                type="text" name="mprn[meterMake]" value="<%= mprn.meterMake %>" /></div>
+                        <div class="form-group"><label for="admInstallDate">Appointment</label><input
+                                class="lockUpdates" type="date" name="fault[appDate]" /></div>
                     </div>
                     <div class="divider">
-                        <div class="form-group"><label for="meterType">Meter Type</label><input class="lockFields" type="text" name="mprn[meterType]" value="<%= mprn.meterType %>" /></div>
-                        <div class="form-group"><label for="admSerial">ADM Serial</label><input class="lockUpdates" type="text" name="mprn[admSerial]" value="<%= mprn.admSerial %>" /></div>
-                        <div class="form-group"><label for="admImei">ADM IMEI</label><input class="lockUpdates" type="text" name="mprn[admImei]" value="<%- mprn.admImei %>" /></div>
-                        <div class="form-group"><label for="admInstallDate">Install Date</label><input class="lockUpdates" type="date" name="mprn[admInstallDate]" /></div>
+                        <div class="form-group"><label for="meterType">Meter Type</label><input class="lockFields"
+                                type="text" name="mprn[meterType]" value="<%= mprn.meterType %>" /></div>
+                        <div class="form-group"><label for="admSerial">ADM Serial</label><input class="lockUpdates"
+                                type="text" name="mprn[admSerial]" value="<%= mprn.admSerial %>" /></div>
+                        <div class="form-group"><label for="admImei">ADM IMEI</label><input class="lockUpdates"
+                                type="text" name="mprn[admImei]" value="<%- mprn.admImei %>" /></div>
+                        <div class="form-group"><label for="admInstallDate">Install Date</label><input
+                                class="lockUpdates" type="date" name="mprn[admInstallDate]" /></div>
                     </div>
                     <div class="divider">
-                        <div class="form-group"><label for="meterRead">Meter Read</label><input class="lockUpdates" type="text" name="fault[meterRead]" value="<%- fault.meterRead %>" /></div>
+                        <div class="form-group"><label for="meterRead">Meter Read</label><input class="lockUpdates"
+                                type="text" name="fault[meterRead]" value="<%- fault.meterRead %>" /></div>
                         <% if(!currentUser) { %>
-                            <div class="form-group"><label for="user">User</label><input type="text" name="user" disabled /></div>
+                            <div class="form-group"><label for="user">User</label><input type="text" name="user"
+                                    disabled /></div>
                             <% } else { %>
-                                <div class="form-group"><label for="user">User</label><input type="text" name="user" value="<%= currentUser.username %>" disabled /></div>
-                            <% } %>
-                                <div class="form-group"><label for="JobStatus">Job Status</label> 
-                                    <select title="Job Status" class="lockUpdates" name="fault[status]" id="jobStatus">
-                                            <option <%= fault.status == "Outstanding" ? "selected" : "" %> value="Outstanding">Outstanding</option>
-                                            <option <%= fault.status =="Completed" ? "selected" : "" %> value="Completed">Completed</option>
-                                            <option <%= fault.status =="Cancelled" ? "selected" : "" %> value="Cancelled">Cancelled</option>
-                                    </select> 
-                                </div>
-                                <div class="form-group"><label for="admInstallDate">Attended</label><input class="lockUpdates" type="date" name="fault[attendedDate]" /></div>
-                                 <div class="form-group"><label for="cancelReason">Cancel Reason</label> 
-                                 <div id="cancelReason" class="form-group">
-                                        <input id="isCancelledReason" class="lockUpdates" type="text" name="fault[isCancelledReason]" value="<%= fault.isCancelledReason %>" /></div>
-                                </div>
+                                <div class="form-group"><label for="user">User</label><input type="text" name="user"
+                                        value="<%= currentUser.username %>" disabled /></div>
+                                <% } %>
+                                    <div class="form-group"><label for="JobStatus">Job Status</label>
+                                        <select title="Job Status" class="lockUpdates" name="fault[status]"
+                                            id="jobStatus">
+                                            <option <%=fault.status=="Outstanding" ? "selected" : "" %>
+                                                value="Outstanding">Outstanding</option>
+                                            <option <%=fault.status=="Completed" ? "selected" : "" %>
+                                                value="Completed">Completed</option>
+                                            <option <%=fault.status=="Cancelled" ? "selected" : "" %>
+                                                value="Cancelled">Cancelled</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group"><label for="admInstallDate">Attended</label><input
+                                            class="lockUpdates" type="date" name="fault[attendedDate]" /></div>
+                                    <div class="form-group"><label for="cancelReason">Cancel Reason</label>
+                                        <div id="cancelReason" class="form-group">
+                                            <input id="isCancelledReason" class="lockUpdates" type="text"
+                                                name="fault[isCancelledReason]"
+                                                value="<%= fault.isCancelledReason %>" />
+                                        </div>
+                                    </div>
                     </div>
                 </div>
                 <hr>
                 <div class="row text-center">
-                    <div class="col-md-3">Date Raised:&nbsp&nbsp<%= fault.requestedDate.toLocaleDateString('en-GB') %></div>
-                    <div class="col-md-3">SLA Date:&nbsp&nbsp<%= fault.slaDate.toLocaleDateString('en-GB') %></div>
+                    <div class="col-md-3">Date Raised:&nbsp&nbsp<%= fault.requestedDate.toLocaleDateString('en-GB') %>
+                    </div>
+                    <div class="col-md-3">SLA Date:&nbsp&nbsp<%= fault.slaDate.toLocaleDateString('en-GB') %>
+                    </div>
                     <div class="col-md-3">Appointment Date:&nbsp&nbsp
-                        <% if(fault.appDate) { %><%= fault.appDate.toLocaleDateString('en-GB') %></div><% } %>
+                        <% if(fault.appDate) { %>
+                            <%= fault.appDate.toLocaleDateString('en-GB') %>
                     </div>
-                    <div class="col-md-3">Attended Date:&nbsp&nbsp</div>
-                        <% if(fault.attendedDate) { %><%= fault.attendedDate.toLocaleDateString('en-GB') %><% } %>
-                    </div>
+                    <% } %>
                 </div>
-                <hr>
-                <div class="visitBoxes lockUpdates">
-                    <div class="form-group">
-                        <label>Visit Category: </label>
-                        <input class="lockUpdates" id="signal" type="radio" name="fault[faultCat]" value="Signal" <% if(fault.faultCat == "Signal"){ %> checked="checked" <% } %> /><label for="signal">Signal</label>
-                        <input class="lockUpdates" id="read-escalate" type="radio" name="fault[faultCat]" value="Read/Escalate" <% if(fault.faultCat == "Read / Escalate"){ %> checked="checked" <% } %> /><label for="read-escalate">Read/Escalate</label>
-                        <input class="lockUpdates" id="read-required" type="radio" name="fault[faultCat]" value="Read Required" <% if(fault.faultCat == "Read Required"){ %> checked="checked" <% } %> /><label for="read-required">Read Required</label>
-                        <input class="lockUpdates" id="install" type="radio" name="fault[faultCat]" value="Install" <% if(fault.faultCat == "Install"){ %> checked="checked" <% } %> /><label for="install">Install</label>
-                        <input class="lockUpdates" id="removal" type="radio" name="fault[faultCat]" value="Removal" <% if(fault.faultCat == "Removal"){ %> checked="checked" <% } %> /><label for="removal">Removal</label>
-                    </div>
-                </div>
-                <label class="notesMargin">Notes:</label>
-                <div class="visitComments">
-                    <div class="row">
-                        <div class="col-sm-1"><i class="fas fa-exclamation-circle"></i></div>
-                        <div class="col-sm-8 visitCommentsText"><%= fault.faultIssue %></div>
-                        <div class="col-sm-3 justifyCommentsText"><em>Created by:&emsp;<strong><%= fault.dmAuthor.username %></strong></em></div>
-                    </div>
-                    <% fault.comments.forEach(function(comment){ %>
-                        <div class="row">
-                            <div class="col-sm-1"><i class="far fa-comment-alt"></i></div>
-                            <div class="col-sm-8 visitCommentsText"><%= comment.text %></div>
-                            <div class="col-sm-3 justifyCommentsText"><em>Added by:&emsp;<strong><%= comment.dmAuthor.username %></strong></em></div>
-                        </div>
-                    <% }); %>
-                </div>
-                <div class="visitNotes">
-                    <textarea class="lockUpdates" id="faultNotes" name="comment[text]" rows="4"></textarea>
-                </div>
-                <div class="pull-right-buttons">
-                    <a class="btn btn-md btn-warning" href="/">Back</a>
-                    <button id="saveButton"class="btn btn-md btn-success">Save</button>
-                </div>
+                <div class="col-md-3">Attended Date:&nbsp&nbsp</div>
+                <% if(fault.attendedDate) { %>
+                    <%= fault.attendedDate.toLocaleDateString('en-GB') %>
+                        <% } %>
+                            </div>
+                            </div>
+                            <hr>
+                            <div class="visitBoxes lockUpdates">
+                                <div class="form-group">
+                                    <label>Visit Category: </label>
+                                    <input class="lockUpdates" id="signal" type="radio" name="fault[faultCat]"
+                                        value="Signal" <% if(fault.faultCat=="Signal" ){ %> checked="checked" <% } %>
+                                        /><label for="signal">Signal</label>
+                                        <input class="lockUpdates" id="read-escalate" type="radio"
+                                            name="fault[faultCat]" value="Read/Escalate" <%
+                                            if(fault.faultCat=="Read / Escalate" ){ %> checked="checked" <% } %>
+                                            /><label for="read-escalate">Read/Escalate</label>
+                                            <input class="lockUpdates" id="read-required" type="radio"
+                                                name="fault[faultCat]" value="Read Required" <%
+                                                if(fault.faultCat=="Read Required" ){ %> checked="checked" <% } %>
+                                                /><label for="read-required">Read Required</label>
+                                                <input class="lockUpdates" id="install" type="radio"
+                                                    name="fault[faultCat]" value="Install" <%
+                                                    if(fault.faultCat=="Install" ){ %> checked="checked" <% } %>
+                                                    /><label for="install">Install</label>
+                                                    <input class="lockUpdates" id="removal" type="radio"
+                                                        name="fault[faultCat]" value="Removal" <%
+                                                        if(fault.faultCat=="Removal" ){ %> checked="checked" <% } %>
+                                                        /><label for="removal">Removal</label>
+                                </div>
+                            </div>
+                            <label class="notesMargin">Notes:</label>
+                            <div class="visitComments">
+                                <div class="row">
+                                    <div class="col-sm-1"><i class="fas fa-exclamation-circle"></i></div>
+                                    <div class="col-sm-8 visitCommentsText">
+                                        <%= fault.faultIssue %>
+                                    </div>
+                                    <div class="col-sm-3 justifyCommentsText"><em>Created by:&emsp;<strong>
+                                                <%= fault.dmAuthor.username %>
+                                            </strong></em></div>
+                                </div>
+                                <% fault.comments.forEach(function(comment){ %>
+                                    <div class="row">
+                                        <div class="col-sm-1"><i class="far fa-comment-alt"></i></div>
+                                        <div class="col-sm-8 visitCommentsText">
+                                            <%= comment.text %>
+                                        </div>
+                                        <div class="col-sm-3 justifyCommentsText"><em>Added by:&emsp;<strong>
+                                                    <%= comment.dmAuthor.username %>
+                                                </strong></em></div>
+                                    </div>
+                                    <% }); %>
+                            </div>
+                            <div class="visitNotes">
+                                <textarea class="lockUpdates" id="faultNotes" name="comment[text]" rows="4"></textarea>
+                            </div>
+                            <div class="pull-right-buttons">
+                                <a class="btn btn-md btn-warning" href="/">Back</a>
+                                <button id="saveButton" class="btn btn-md btn-success">Save</button>
+                            </div>
             </form>
-        </div>
+            </div>
             </form>
-            <form id="unlockOptions" ></form>
+            <form id="unlockOptions"></form>
             <form id="adminOptions" action="/tickets/<%= fault._id %>?_method=DELETE" method="POST"></form>
-        </section>  
+        </section>
     </section>
-    
-<% include ../partials/footer %>
+
+    <%- include ('../partials/footer') %>

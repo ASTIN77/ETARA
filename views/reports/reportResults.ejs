@@ -1,40 +1,77 @@
-<% include ../partials/header %>
+<%- include ('../partials/header') %>
 
-<section>
-    <div class="jumbotron">
-        <div class="resultsGrid">
+    <section>
+        <div class="jumbotron">
+            <div class="resultsGrid">
                 <div class="resultsHeader">
-                        <div class="row">
-                            <div class="col-sm-1">Job Ref</div> <div class="col-sm-1">Mprn</div> <div class="col-sm-1">Fault Category</div> <div class="col-sm-1">Status</div>
-                            <div class="col-sm-1">Date Raised</div> <div class="col-sm-1">Appointment</div> <div class="col-sm-1">Attended</div> <div class="col-sm-1">SLA</div>
-                            <div class="col-sm-1">Raised By</div> <div class="col-sm-2">Site Name</div><div class="col-sm-1">Post Code</div>
-                        </div>
+                    <div class="row">
+                        <div class="col-sm-1">Job Ref</div>
+                        <div class="col-sm-1">Mprn</div>
+                        <div class="col-sm-1">Fault Category</div>
+                        <div class="col-sm-1">Status</div>
+                        <div class="col-sm-1">Date Raised</div>
+                        <div class="col-sm-1">Appointment</div>
+                        <div class="col-sm-1">Attended</div>
+                        <div class="col-sm-1">SLA</div>
+                        <div class="col-sm-1">Raised By</div>
+                        <div class="col-sm-2">Site Name</div>
+                        <div class="col-sm-1">Post Code</div>
                     </div>
-                <div class="resultsBox"> 
+                </div>
+                <div class="resultsBox">
                     <% queryResults.forEach(function(results){ %>
                         <div class="row resultsBorder">
-                            <div class="col-sm-1"><a id="jobRefLink" href="/search/<%= results._id %>"><%=results.jobRef %></a></div>
-                            <div class="col-sm-1"><%= results.mprNo %></div>
-                            <div class="col-sm-1"><%= results.faultCat %></div><div class="col-sm-1"><%= results.status %></div>
-                            <div class="col-sm-1"><%= results.requestedDate.toLocaleDateString('en-GB') %></div>
-                            <div class="col-sm-1"><% if(results.appDate){ %><%= results.appDate.toLocaleDateString('en-GB') %><% } %></div>
-                            <div class="col-sm-1"><% if(results.attendedDate){ %><%= results.attendedDate.toLocaleDateString('en-GB') %><% } %></div>
-                            <div class="col-sm-1"><% if(results.slaDate){ %><%= results.slaDate.toLocaleDateString('en-GB') %><% } %></div>
-                            <div class="col-sm-1"><%= results.dmAuthor.username %></div>
-                            <div class="col-sm-2"><%= results.siteDetails.siteName %></div>
-                            <div class="col-sm-1"><%= results.siteDetails.postCode %></div>
+                            <div class="col-sm-1"><a id="jobRefLink" href="/search/<%= results._id %>">
+                                    <%=results.jobRef %>
+                                </a></div>
+                            <div class="col-sm-1">
+                                <%= results.mprNo %>
+                            </div>
+                            <div class="col-sm-1">
+                                <%= results.faultCat %>
+                            </div>
+                            <div class="col-sm-1">
+                                <%= results.status %>
+                            </div>
+                            <div class="col-sm-1">
+                                <%= results.requestedDate.toLocaleDateString('en-GB') %>
+                            </div>
+                            <div class="col-sm-1">
+                                <% if(results.appDate){ %>
+                                    <%= results.appDate.toLocaleDateString('en-GB') %>
+                                        <% } %>
+                            </div>
+                            <div class="col-sm-1">
+                                <% if(results.attendedDate){ %>
+                                    <%= results.attendedDate.toLocaleDateString('en-GB') %>
+                                        <% } %>
+                            </div>
+                            <div class="col-sm-1">
+                                <% if(results.slaDate){ %>
+                                    <%= results.slaDate.toLocaleDateString('en-GB') %>
+                                        <% } %>
+                            </div>
+                            <div class="col-sm-1">
+                                <%= results.dmAuthor.username %>
+                            </div>
+                            <div class="col-sm-2">
+                                <%= results.siteDetails.siteName %>
+                            </div>
+                            <div class="col-sm-1">
+                                <%= results.siteDetails.postCode %>
+                            </div>
                         </div>
-                    <% }); %>
-    
-                    <div class="pull-right-buttons">
-                        <button class="btn btn-md btn-warning" onclick="goBack()">Back</button>
-                    </div>
-                    <script>  function goBack() {
-                        window.history.back();
-                        }</script>
+                        <% }); %>
+
+                            <div class="pull-right-buttons">
+                                <button class="btn btn-md btn-warning" onclick="goBack()">Back</button>
+                            </div>
+                            <script>  function goBack() {
+                                    window.history.back();
+                                }</script>
                 </div>
+            </div>
         </div>
-    </div>
-</section>
-    
-<% include ../partials/header %>
+    </section>
+
+    <%- include ('../partials/header') %>

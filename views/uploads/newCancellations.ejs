@@ -1,17 +1,17 @@
-<% include ../partials/header %>
-        
+<%- include ('../partials/header') %>
+
     <!-- Display Ticket Upload Dialog -->
-    
+
     <div class="jumbotron boxed">
         <h2 class="searchHeader">Bulk Cancellations</h2>
-            <section class="boxDisplay divider">
-                <p>Use the form below to upload a <strong>New Cancellations</strong>.
+        <section class="boxDisplay divider">
+            <p>Use the form below to upload a <strong>New Cancellations</strong>.
                 Click <a href="/upload/cancellationTemplate"><u>here</u></a> for an blank template.</p>
-                    <form action="/upload/cancellations" method="POST" encType="multipart/form-data">
-                        <input type="file" name="file" accept="*.csv" /><br/><br/>
-                        <button class="btn btn-lg buttonCenter">Upload</button>
-                    </form>
-            </section>
+            <form action="/upload/cancellations" method="POST" encType="multipart/form-data">
+                <input type="file" name="file" accept="*.csv" /><br /><br />
+                <button class="btn btn-lg buttonCenter">Upload</button>
+            </form>
+        </section>
     </div>
-        
-<% include ../partials/footer %>
+
+    <%- include ('../partials/footer') %>
