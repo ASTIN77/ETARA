@@ -28,6 +28,7 @@
     "helmet": "^3.15.1",
     "json2csv": "^4.2.1",
     "lodash": "^4.17.20",
+    "mariadb": "^3.2.0",
     "method-override": "^2.3.10",
     "mongoose": "^5.8.7",
     "mongoose-sequence": "^5.2.2",
