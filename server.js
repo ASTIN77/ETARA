@@ -1,64 +1,59 @@
 // REQUIRED MODULES SETUP
 
-const express = require('express'),
-    cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser'),
-    mongoose = require('mongoose'),
-    sql = require('mssql'),
-    session = require('express-session'),
-    helmet = require('helmet'),
-    memoryStore = require('session-memory-store')(session),
-    expressSanitizer = require("express-sanitizer"),
-    passport = require('passport'),
-    LocalStrategy = require("passport-local").Strategy,
-    methodOverride = require('method-override'),
-    flash = require('connect-flash'),
-    User = require("./models/user"),
-    indexRoutes = require("./routes/index"),
-    ticketRoutes = require("./routes/tickets"),
-    searchRoutes = require("./routes/search"),
-    uploadRoutes = require("./routes/uploads"),
-    reportRoutes = require("./routes/reports"),
-    mprnRoutes = require("./routes/mprns"),
-    app = express();
-mongoose.Promise = global.Promise;
+const express = require("express"),
+  cookieParser = require("cookie-parser"),
+  bodyParser = require("body-parser"),
+  //flash = require("express-flash"),
+  session = require("express-session"),
+  expressValidator = require("express-validator"),
+  helmet = require("helmet"),
+  memoryStore = require("session-memory-store")(session),
+  expressSanitizer = require("express-sanitizer"),
+  methodOverride = require("method-override"),
+  flash = require("connect-flash"),
+  indexRoutes = require("./routes/index"),
+  ticketRoutes = require("./routes/tickets"),
+  searchRoutes = require("./routes/search"),
+  uploadRoutes = require("./routes/uploads"),
+  createError = require("http-errors"),
+  reportRoutes = require("./routes/reports"),
+  mprnRoutes = require("./routes/mprns");
 
-
-const dotenv = require('dotenv');
-dotenv.config();
-mongoose.connect(process.env.ETARADATABASEURL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
-
+app = express();
 
 // SETUP ENVIROMENTALS
 
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(helmet.hidePoweredBy());
 app.use(helmet.xssFilter());
 app.use(helmet.noSniff());
 app.use(helmet.ieNoOpen());
-app.use(cookieParser('OnlyAmigaMakesItPossible'));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser("OnlyAmigaMakesItPossible"));
+app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method")),
-    app.use(session({
-        secret: "IrnBru32Phenomonal",
-        resave: false,
-        saveUninitialized: false,
-        store: new memoryStore()
-    }));
+  app.use(
+    session({
+      secret: "IrnBru32Phenomonal",
+      resave: false,
+      saveUninitialized: false,
+      store: new memoryStore(),
+    })
+  );
 app.use(flash());
+app.use(expressValidator());
 app.use(expressSanitizer());
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// app.use(passport.initialize());
+// app.use(passport.session());
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 app.use(function (req, res, next) {
-    res.locals.currentUser = req.user;
-    res.locals.error = req.flash("error");
-    res.locals.success = req.flash("success");
-    res.locals.confirm = req.flash("confirm");
-    next();
+  res.locals.currentUser = req.user;
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
+  res.locals.confirm = req.flash("confirm");
+  next();
 });
 
 app.use(indexRoutes);
@@ -68,31 +63,15 @@ app.use("/upload", uploadRoutes);
 app.use("/reports", reportRoutes);
 app.use("/mprns", mprnRoutes);
 
-app.set('port', process.env.PORT || 3000);
+app.set("port", process.env.PORT || 3000);
 
-
-// Initialize MongoDB Databse connection
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
+});
+// Initialize MariaDB/MySQL Database connection
 // & start listening on process.env.PORT
 
-
-const connectDB = async() => {
-
-    try {
-      const conn = mongoose.connect(process.env.ETARADATABASEURL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-      });
-    } catch (error) {
-      console.log(error);
-      process.exit(1);
-    }
-  }
-  
-  connectDB().then(() => {
-  
-    app.listen(app.get("port"), function () {
-      console.log("Successfully listening on " + app.get("port"));
-    });
-  
-  });
+app.listen(app.get("port"), function () {
+  console.log("Successfully listening on " + app.get("port"));
+});
