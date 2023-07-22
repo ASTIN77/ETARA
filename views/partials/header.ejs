@@ -74,20 +74,18 @@
             <!-- Right Hand Navigation Bar -->
             <div>
                 <ul class="nav navbar-nav navbar-right right-spacer">
-                    <% if(req.session.loggedIn){ %>
-                        <li class="nav-item nav-link"><a class=nav-link><i class="fas fa-user fa-lg"></i>
-                                <!--<%= req.body.firstName %>
-                                    <%=currentUser.lastName %>
-                                    You are logged in! -->
-                            </a></li>
-                        <!--<% if(currentUser.isAdmin){ %> -->
-                        <li class="nav-item"><a class="nav-link" href="/register">Create User</a></li>
-                        <!--<% } %> -->
-                        <li class="nav-item"><a class="nav-link" href="/logout"><i class="settings icon"></i>
-                                Log Out</a></li>
-                        <% } else { %>
-                            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-                            <% } %>
+
+                    <li class="nav-item nav-link"><a class=nav-link><i class="fas fa-user fa-lg"></i>
+
+                        </a></li>
+
+                    <li class="nav-item"><a class="nav-link" href="/register">Create User</a></li>
+
+                    <li class="nav-item"><a class="nav-link" href="/logout"><i class="settings icon"></i>
+                            Log Out</a></li>
+
+                    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+
                 </ul>
             </div>
         </nav>

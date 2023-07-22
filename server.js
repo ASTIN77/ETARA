@@ -2,7 +2,7 @@
 
 const express = require("express"),
   bodyParser = require("body-parser"),
-  session = require("express-mysql-session"),
+  session = require("express-session"),
   db = require("./lib/db"),
   expressValidator = require("express-validator"),
   helmet = require("helmet"),

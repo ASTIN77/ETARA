@@ -8,7 +8,7 @@ router = express.Router({ mergeParams: true });
 
 // INDEX ROUTE
 
-router.get("/", middlewareObj.isLoggedIn, (req, res) => {
+router.get("/", (req, res) => {
   if (middlewareObj.isLoggedIn) {
     res.render("index");
   } else {
@@ -27,26 +27,27 @@ router.get("/login", (req, res) => {
 router.post("/login", (req, res, next) => {
   var username = req.body.username;
   var password = req.body.password;
-
   db.query(
     "SELECT * FROM users WHERE username = ?",
     [username],
+
     async (error, results, fields) => {
       if (error) {
-        req.flash("error", "Please correct enter email and Password!");
+        console.log(error.message);
+        req.flash("error", "Please enter correct username and Password!");
         res.redirect("/login");
       } else {
         if (results.length > 0) {
-          const comparision = await bcrypt.compare(
+          const comparison = await bcrypt.compare(
             password,
             results[0].password
           );
-          if (comparision) {
+          if (comparison) {
             req.session.loggedin = true;
             req.flash("success", "Welcome " + req.body.username);
             res.redirect("/");
           } else {
-            req.flash("error", "Email or Password is incorrect");
+            req.flash("error", "Username or Password is incorrect");
             res.redirect("/login");
           }
         }
@@ -72,7 +73,7 @@ router.get("/register", (req, res) => {
 // REGISTER USER - POST ROUTE
 
 // router.post("/register", middleware.isLoggedIn, (req,res) => {
-router.post("/register", middlewareObj.isLoggedIn, async (req, res) => {
+router.post("/register", async (req, res) => {
   const pass = req.body.password;
   req.body.isAdmin ? (isAdmin = true) : (isAdmin = false);
   req.body.isManager ? (isManager = true) : (isManager = false);
