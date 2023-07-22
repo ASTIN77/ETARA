@@ -1,9 +1,7 @@
 // REQUIRED MODULES SETUP
 
 const express = require("express"),
-  //cookieParser = require("cookie-parser"),
   bodyParser = require("body-parser"),
-  //flash = require("express-flash"),
   session = require("express-mysql-session"),
   db = require("./lib/db"),
   expressValidator = require("express-validator"),
@@ -12,6 +10,7 @@ const express = require("express"),
   expressSanitizer = require("express-sanitizer"),
   methodOverride = require("method-override"),
   flash = require("connect-flash"),
+  dotenv = require("dotenv").config(),
   indexRoutes = require("./routes/index"),
   ticketRoutes = require("./routes/tickets"),
   searchRoutes = require("./routes/search"),
