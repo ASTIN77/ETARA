@@ -8,7 +8,7 @@ router = express.Router({ mergeParams: true });
 
 // INDEX ROUTE
 
-router.get("/", (req, res) => {
+router.get("/", middlewareObj.isLoggedIn, (req, res) => {
   if (middlewareObj.isLoggedIn) {
     res.render("index");
   } else {
