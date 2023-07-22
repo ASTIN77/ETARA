@@ -19,15 +19,15 @@ router.get("/login", (req, res) => {
 });
 
 //authenticate user
-router.post("/login", async (req, res, next) => {
+router.post("/login", (req, res, next) => {
   var username = req.body.username;
   var password = req.body.password;
 
   db.query(
-    "SELECT * FROM users WHERE username = ? AND password = ?",
-    [username, password],
-    async (err, results, fields) => {
-      if (err) {
+    "SELECT * FROM users WHERE username = ?",
+    [username],
+    async (error, results, fields) => {
+      if (error) {
         req.flash("error", "Please correct enter email and Password!");
         res.redirect("/login");
       } else {
@@ -38,14 +38,12 @@ router.post("/login", async (req, res, next) => {
           );
           if (comparision) {
             req.session.loggedin = true;
-            req.session.username = req.flash("success", "Welcome " + username);
+            req.flash("success", "Welcome " + req.body.username);
             res.redirect("/");
           } else {
             req.flash("error", "Email or Password is incorrect");
             res.redirect("/login");
           }
-          // if user found
-          // render to views/user/edit.ejs template file
         }
       }
     }
@@ -55,6 +53,8 @@ router.post("/login", async (req, res, next) => {
 // LOGOUT USER - GET ROUTE
 
 router.get("/logout", (req, res) => {
+  req.session.loggedin = true;
+  req.flash("Success", "You have successfully logged out. Goodbye!");
   res.redirect("/login");
 });
 
@@ -67,21 +67,19 @@ router.get("/register", (req, res) => {
 // REGISTER USER - POST ROUTE
 
 // router.post("/register", middleware.isLoggedIn, (req,res) => {
-router.post("/register", (req, res) => {
-  const password = req.body.password;
+router.post("/register", async (req, res) => {
+  const pass = req.body.password;
   req.body.isAdmin ? (isAdmin = true) : (isAdmin = false);
   req.body.isManager ? (isManager = true) : (isManager = false);
 
-  async function hashPassword(pass) {
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-  }
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(pass, saltRounds);
 
   var newUser = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     username: req.body.username,
-    password: hashPassword(password),
+    password: hashedPassword,
     email: req.body.email,
     isAdmin: isAdmin,
     isManager: isManager,
