@@ -38,10 +38,7 @@ router.post("/login", (req, res, next) => {
         res.redirect("/login");
       } else {
         if (results.length > 0) {
-          const comparison = await bcrypt.compare(
-            password,
-            results[0].password
-          );
+          const comparison = bcrypt.compare(password, results[0].password);
           if (comparison) {
             req.session.loggedin = true;
             req.flash("success", "Welcome " + req.body.username);
