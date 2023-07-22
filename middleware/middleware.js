@@ -8,7 +8,7 @@ middlewareObj.checkCurrentUser = function (req, res, next) {
 };
 
 middlewareObj.isLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated()) {
+  if (req.session.loggedIn) {
     return next();
   }
   req.flash("error", "You need to be logged in to do that!");

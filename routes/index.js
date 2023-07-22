@@ -1,15 +1,20 @@
 const express = require("express");
 const db = require("../lib/db");
 const bcrypt = require("bcrypt");
+const middlewareObj = require("../middleware/middleware");
 router = express.Router({ mergeParams: true });
 
 // *** ROUTES ***
 
 // INDEX ROUTE
 
-router.get("/", (req, res) => {
-  // missing
-  res.render("index");
+router.get("/", middlewareObj.isLoggedIn, (req, res) => {
+  if (middlewareObj.isLoggedIn) {
+    res.render("index");
+  } else {
+    req.flash("error", "You must be logged in!");
+    res.redirect("/login");
+  }
 });
 
 // LOGIN USER - GET ROUTE
@@ -53,7 +58,7 @@ router.post("/login", (req, res, next) => {
 // LOGOUT USER - GET ROUTE
 
 router.get("/logout", (req, res) => {
-  req.session.loggedin = true;
+  req.session.loggedin = false;
   req.flash("Success", "You have successfully logged out. Goodbye!");
   res.redirect("/login");
 });
@@ -67,7 +72,7 @@ router.get("/register", (req, res) => {
 // REGISTER USER - POST ROUTE
 
 // router.post("/register", middleware.isLoggedIn, (req,res) => {
-router.post("/register", async (req, res) => {
+router.post("/register", middlewareObj.isLoggedIn, async (req, res) => {
   const pass = req.body.password;
   req.body.isAdmin ? (isAdmin = true) : (isAdmin = false);
   req.body.isManager ? (isManager = true) : (isManager = false);

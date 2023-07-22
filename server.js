@@ -1,13 +1,14 @@
 // REQUIRED MODULES SETUP
 
 const express = require("express"),
-  cookieParser = require("cookie-parser"),
+  //cookieParser = require("cookie-parser"),
   bodyParser = require("body-parser"),
   //flash = require("express-flash"),
-  session = require("express-session"),
+  session = require("express-mysql-session"),
+  db = require("./lib/db"),
   expressValidator = require("express-validator"),
   helmet = require("helmet"),
-  memoryStore = require("session-memory-store")(session),
+  MemoryStore = require("session-memory-store")(session),
   expressSanitizer = require("express-sanitizer"),
   methodOverride = require("method-override"),
   flash = require("connect-flash"),
@@ -29,15 +30,15 @@ app.use(helmet.hidePoweredBy());
 app.use(helmet.xssFilter());
 app.use(helmet.noSniff());
 app.use(helmet.ieNoOpen());
-app.use(cookieParser("OnlyAmigaMakesItPossible"));
+//app.use(cookieParser("OnlyAmigaMakesItPossible"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method")),
   app.use(
     session({
-      secret: "IrnBru32Phenomonal",
+      secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
-      store: new memoryStore(),
+      store: MemoryStore,
     })
   );
 app.use(flash());

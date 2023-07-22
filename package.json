@@ -23,6 +23,7 @@
     "express": "^4.16.3",
     "express-fileupload": "^1.2.1",
     "express-flash": "^0.0.2",
+    "express-mysql-session": "^3.0.0",
     "express-sanitizer": "^1.0.4",
     "express-session": "^1.15.6",
     "express-validator": "5.3.1",
