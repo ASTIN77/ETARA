@@ -8,7 +8,7 @@ const express = require("express"),
   db = require("./lib/db"),
   expressValidator = require("express-validator"),
   helmet = require("helmet"),
-  MemoryStore = require("session-memory-store")(session),
+  memoryStore = require("session-memory-store")(session),
   expressSanitizer = require("express-sanitizer"),
   methodOverride = require("method-override"),
   flash = require("connect-flash"),
@@ -38,7 +38,7 @@ app.use(methodOverride("_method")),
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
-      store: MemoryStore,
+      store: memoryStore(),
     })
   );
 app.use(flash());
