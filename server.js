@@ -10,7 +10,7 @@ const express = require("express"),
   expressSanitizer = require("express-sanitizer"),
   methodOverride = require("method-override"),
   flash = require("connect-flash"),
-  dotenv = require("dotenv").config(),
+  dotenv = require("dotenv"),
   indexRoutes = require("./routes/index"),
   ticketRoutes = require("./routes/tickets"),
   searchRoutes = require("./routes/search"),
@@ -18,6 +18,7 @@ const express = require("express"),
   createError = require("http-errors"),
   reportRoutes = require("./routes/reports"),
   mprnRoutes = require("./routes/mprns");
+dotenv.config();
 
 app = express();
 
@@ -29,8 +30,7 @@ app.use(helmet.hidePoweredBy());
 app.use(helmet.xssFilter());
 app.use(helmet.noSniff());
 app.use(helmet.ieNoOpen());
-//app.use(cookieParser("OnlyAmigaMakesItPossible"));
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method")),
   app.use(
     session({
