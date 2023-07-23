@@ -41,6 +41,7 @@ app.use(methodOverride("_method")),
     })
   );
 app.use(flash());
+app.use(express.json());
 app.use(expressValidator());
 app.use(expressSanitizer());
 app.use(function (req, res, next) {

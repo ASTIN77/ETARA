@@ -12,7 +12,6 @@ router.get("/", middlewareObj.isLoggedIn, (req, res) => {
   if (middlewareObj.isLoggedIn) {
     res.render("index");
   } else {
-    req.flash("error", "You must be logged in!");
     res.redirect("/login");
   }
 });
