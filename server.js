@@ -5,11 +5,13 @@ const express = require("express"),
   session = require("express-session"),
   db = require("./lib/db"),
   expressValidator = require("express-validator"),
+  cors = require("cors"),
   helmet = require("helmet"),
   memoryStore = require("session-memory-store")(session),
   expressSanitizer = require("express-sanitizer"),
   methodOverride = require("method-override"),
   flash = require("connect-flash"),
+  cookieParser = require("cookie-parser"),
   dotenv = require("dotenv"),
   indexRoutes = require("./routes/index"),
   ticketRoutes = require("./routes/tickets"),
@@ -26,11 +28,19 @@ app = express();
 
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+app.use(cookieParser());
 app.use(helmet.hidePoweredBy());
 app.use(helmet.xssFilter());
 app.use(helmet.noSniff());
 app.use(helmet.ieNoOpen());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method")),
   app.use(
     session({
@@ -41,7 +51,6 @@ app.use(methodOverride("_method")),
     })
   );
 app.use(flash());
-app.use(express.json());
 app.use(expressValidator());
 app.use(expressSanitizer());
 app.use(function (req, res, next) {

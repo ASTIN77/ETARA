@@ -8,12 +8,8 @@ router = express.Router({ mergeParams: true });
 
 // INDEX ROUTE
 
-router.get("/", middlewareObj.isLoggedIn, (req, res) => {
-  if (middlewareObj.isLoggedIn) {
-    res.render("index");
-  } else {
-    res.redirect("/login");
-  }
+router.get("/", (req, res) => {
+  res.render("index");
 });
 
 // LOGIN USER - GET ROUTE
@@ -23,29 +19,28 @@ router.get("/login", (req, res) => {
 });
 
 //authenticate user
-router.post("/login", (req, res, next) => {
-  var username = req.body.username;
-  var password = req.body.password;
+router.post("/login", (req, res) => {
+  let username = req.body.username;
+  let password = req.body.password;
   db.query(
     "SELECT * FROM users WHERE username = ?",
     [username],
 
-    async (error, results, fields) => {
+    (error, results, fields) => {
       if (error) {
         console.log(error.message);
         req.flash("error", "Please enter correct username and Password!");
         res.redirect("/login");
-      } else {
-        if (results.length > 0) {
-          const comparison = bcrypt.compare(password, results[0].password);
-          if (comparison) {
-            req.session.loggedin = true;
-            req.flash("success", "Welcome " + req.body.username);
-            res.redirect("/");
-          } else {
-            req.flash("error", "Username or Password is incorrect");
-            res.redirect("/login");
-          }
+      }
+      if (results.length > 0) {
+        const comparison = bcrypt.compare(password, results[0].password);
+        if (comparison) {
+          req.session.loggedin = true;
+          req.flash("success", "Welcome " + req.body.username);
+          res.redirect("/");
+        } else {
+          req.flash("error", "Username or Password is incorrect");
+          res.redirect("/login");
         }
       }
     }
