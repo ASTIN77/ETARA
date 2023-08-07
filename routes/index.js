@@ -1,7 +1,9 @@
-const express = require("express");
-const db = require("../lib/db");
-const bcrypt = require("bcrypt");
-const middlewareObj = require("../middleware/middleware");
+const express = require("express"),
+  db = require("../lib/db"),
+  bcrypt = require("bcrypt"),
+  middlewareObj = require("../middleware/middleware");
+const { unsubscribe } = require("./tickets");
+
 router = express.Router({ mergeParams: true });
 
 // *** ROUTES ***
@@ -20,8 +22,10 @@ router.get("/login", (req, res) => {
 
 //authenticate user
 router.post("/login", (req, res) => {
-  let username = req.body.username;
-  let password = req.body.password;
+  const username = req.body.username;
+  const password = req.body.password;
+  console.log(req.body.username);
+  console.log(req.body.password);
   db.query(
     "SELECT * FROM users WHERE username = ?",
     [username],
@@ -33,12 +37,26 @@ router.post("/login", (req, res) => {
         res.redirect("/login");
       }
       if (results.length > 0) {
+        console.log(results[0].password);
         const comparison = bcrypt.compare(password, results[0].password);
         if (comparison) {
-          req.session.loggedin = true;
+          const jsontoken = jsonwebtoken.sign(
+            { user: username },
+            process.env.SECRET_KEY,
+            { expiresIn: "30m" }
+          );
+          res.cookie("token", jsontoken, {
+            httpOnly: true,
+            secure: true,
+            SameSite: "strict",
+            expires: new Date(Number(new Date()) + 30 * 60 * 1000),
+          }); //we add secure: true, when using https.
+
           req.flash("success", "Welcome " + req.body.username);
+          res.json({ token: jsontoken });
           res.redirect("/");
         } else {
+          console.log("Failed");
           req.flash("error", "Username or Password is incorrect");
           res.redirect("/login");
         }
@@ -50,7 +68,6 @@ router.post("/login", (req, res) => {
 // LOGOUT USER - GET ROUTE
 
 router.get("/logout", (req, res) => {
-  req.session.loggedin = false;
   req.flash("Success", "You have successfully logged out. Goodbye!");
   res.redirect("/login");
 });
@@ -87,6 +104,19 @@ router.post("/register", async (req, res) => {
       req.flash("error", err.message);
       return res.redirect("/register");
     } else {
+      const jsontoken = jsonwebtoken.sign(
+        { user: username },
+        process.env.SECRET_KEY,
+        { expiresIn: "30m" }
+      );
+      res.cookie("token", jsontoken, {
+        httpOnly: true,
+        secure: true,
+        SameSite: "strict",
+        expires: new Date(Number(new Date()) + 30 * 60 * 1000),
+      }); //we add secure: true, when using https.
+
+      res.json({ token: jsontoken });
       req.flash(
         "success",
         newUser.username + " account has been successfully created!"
