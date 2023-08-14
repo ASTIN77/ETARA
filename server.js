@@ -29,13 +29,7 @@ app = express();
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 //app.use(express.json());
-app.use(bodyParser.json());
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(helmet.hidePoweredBy());
 app.use(helmet.xssFilter());

@@ -1,6 +1,7 @@
 const express = require("express"),
   db = require("../lib/db"),
   bcrypt = require("bcrypt"),
+  jsonwebtoken = require("jsonwebtoken"),
   middlewareObj = require("../middleware/middleware");
 const { unsubscribe } = require("./tickets");
 
@@ -22,10 +23,10 @@ router.get("/login", (req, res) => {
 
 //authenticate user
 router.post("/login", (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  console.log(req.body.username);
-  console.log(req.body.password);
+  let username = req.body.username;
+  let password = req.body.password;
+  console.log(username);
+  console.log(password);
   db.query(
     "SELECT * FROM users WHERE username = ?",
     [username],
@@ -38,6 +39,7 @@ router.post("/login", (req, res) => {
       }
       if (results.length > 0) {
         console.log(results[0].password);
+
         const comparison = bcrypt.compare(password, results[0].password);
         if (comparison) {
           const jsontoken = jsonwebtoken.sign(
@@ -45,20 +47,20 @@ router.post("/login", (req, res) => {
             process.env.SECRET_KEY,
             { expiresIn: "30m" }
           );
+
           res.cookie("token", jsontoken, {
             httpOnly: true,
             secure: true,
             SameSite: "strict",
-            expires: new Date(Number(new Date()) + 30 * 60 * 1000),
-          }); //we add secure: true, when using https.
+            expires: new Date(Date.now() + 900000),
+          });
 
           req.flash("success", "Welcome " + req.body.username);
-          res.json({ token: jsontoken });
-          res.redirect("/");
+          res.render("/", { token: token });
+          //return res.redirect("/");
         } else {
-          console.log("Failed");
           req.flash("error", "Username or Password is incorrect");
-          res.redirect("/login");
+          return res.redirect("/login");
         }
       }
     }
