@@ -1,13 +1,14 @@
 {
-  "name": "arrtaCRM",
+  "name": "etara",
   "version": "1.0.0",
   "description": "A Job Ticketing System got Gas AMR Faults",
   "engines": {
-    "node": "16.3.0"
+    "node": "18.12.1"
   },
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node etara.js"
   },
   "author": "Andrew Tinsley",
   "license": "ISC",
@@ -35,6 +36,7 @@
     "mongoose-sequence": "^5.2.2",
     "mssql": "^4.3.5",
     "mysql": "^2.18.1",
+    "nx": "^19.1.0",
     "passport": "^0.6.0",
     "passport-local-mongoose": "^5.0.0",
     "session-memory-store": "^1.0.0",
