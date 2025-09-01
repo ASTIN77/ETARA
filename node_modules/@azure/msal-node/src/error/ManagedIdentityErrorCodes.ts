@@ -3,11 +3,15 @@
  * Licensed under the MIT License.
  */
 
-import { ManagedIdentityEnvironmentVariableNames } from "../utils/Constants";
+import { ManagedIdentityEnvironmentVariableNames } from "../utils/Constants.js";
 
+export const invalidFileExtension = "invalid_file_extension";
+export const invalidFilePath = "invalid_file_path";
 export const invalidManagedIdentityIdType = "invalid_managed_identity_id_type";
+export const invalidSecret = "invalid_secret";
 export const missingId = "missing_client_id";
 export const networkUnavailable = "network_unavailable";
+export const platformNotSupported = "platform_not_supported";
 export const unableToCreateAzureArc = "unable_to_create_azure_arc";
 export const unableToCreateCloudShell = "unable_to_create_cloud_shell";
 export const unableToCreateSource = "unable_to_create_source";

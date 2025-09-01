@@ -19,18 +19,18 @@ import {
     createClientAuthError,
     AuthenticationResult,
     UrlString,
-} from "@azure/msal-common";
-import { ManagedIdentityId } from "../../config/ManagedIdentityId";
-import { ManagedIdentityRequestParameters } from "../../config/ManagedIdentityRequestParameters";
-import { CryptoProvider } from "../../crypto/CryptoProvider";
-import { ManagedIdentityRequest } from "../../request/ManagedIdentityRequest";
-import { HttpMethod, ManagedIdentityIdType } from "../../utils/Constants";
-import { ManagedIdentityTokenResponse } from "../../response/ManagedIdentityTokenResponse";
-import { NodeStorage } from "../../cache/NodeStorage";
+} from "@azure/msal-common/node";
+import { ManagedIdentityId } from "../../config/ManagedIdentityId.js";
+import { ManagedIdentityRequestParameters } from "../../config/ManagedIdentityRequestParameters.js";
+import { CryptoProvider } from "../../crypto/CryptoProvider.js";
+import { ManagedIdentityRequest } from "../../request/ManagedIdentityRequest.js";
+import { HttpMethod, ManagedIdentityIdType } from "../../utils/Constants.js";
+import { ManagedIdentityTokenResponse } from "../../response/ManagedIdentityTokenResponse.js";
+import { NodeStorage } from "../../cache/NodeStorage.js";
 import {
     ManagedIdentityErrorCodes,
     createManagedIdentityError,
-} from "../../error/ManagedIdentityError";
+} from "../../error/ManagedIdentityError.js";
 
 /**
  * Managed Identity User Assigned Id Query Parameter Names
@@ -102,8 +102,20 @@ export abstract class BaseManagedIdentitySource {
             refresh_in: refreshIn,
 
             // error
-            error: response.body.message,
-            correlation_id: response.body.correlationId,
+            correlation_id:
+                response.body.correlation_id || response.body.correlationId,
+            error:
+                typeof response.body.error === "string"
+                    ? response.body.error
+                    : response.body.error?.code,
+            error_description:
+                response.body.message ||
+                (typeof response.body.error === "string"
+                    ? response.body.error_description
+                    : response.body.error?.message),
+            error_codes: response.body.error_codes,
+            timestamp: response.body.timestamp,
+            trace_id: response.body.trace_id,
         };
 
         return serverTokenResponse;

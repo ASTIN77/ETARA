@@ -38,7 +38,6 @@ export {
     Configuration,
     ManagedIdentityConfiguration,
     ManagedIdentityIdParams,
-    buildAppConfiguration,
     NodeAuthOptions,
     NodeSystemOptions,
     BrokerOptions,
@@ -61,6 +60,9 @@ export {
     SerializedRefreshTokenEntity,
 } from "./cache/serializer/SerializerTypes.js";
 export { DistributedCachePlugin } from "./cache/distributed/DistributedCachePlugin.js";
+
+// Constants
+export { ManagedIdentitySourceNames } from "./utils/Constants.js";
 
 // Crypto
 export { CryptoProvider } from "./crypto/CryptoProvider.js";
@@ -126,6 +128,6 @@ export {
     AppTokenProviderResult,
     INativeBrokerPlugin,
     ClientAssertionCallback,
-} from "@azure/msal-common";
+} from "@azure/msal-common/node";
 
 export { version } from "./packageMetadata.js";

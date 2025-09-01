@@ -3,11 +3,11 @@
  * Licensed under the MIT License.
  */
 
-import { INetworkModule, Logger } from "@azure/msal-common";
-import { ManagedIdentityRequestParameters } from "../../config/ManagedIdentityRequestParameters";
-import { BaseManagedIdentitySource } from "./BaseManagedIdentitySource";
-import { NodeStorage } from "../../cache/NodeStorage";
-import { CryptoProvider } from "../../crypto/CryptoProvider";
+import { INetworkModule, Logger } from "@azure/msal-common/node";
+import { ManagedIdentityRequestParameters } from "../../config/ManagedIdentityRequestParameters.js";
+import { BaseManagedIdentitySource } from "./BaseManagedIdentitySource.js";
+import { NodeStorage } from "../../cache/NodeStorage.js";
+import { CryptoProvider } from "../../crypto/CryptoProvider.js";
 import {
     HttpMethod,
     METADATA_HEADER_NAME,
@@ -15,12 +15,12 @@ import {
     ManagedIdentityIdType,
     ManagedIdentitySourceNames,
     RESOURCE_BODY_OR_QUERY_PARAMETER_NAME,
-} from "../../utils/Constants";
+} from "../../utils/Constants.js";
 import {
     ManagedIdentityErrorCodes,
     createManagedIdentityError,
-} from "../../error/ManagedIdentityError";
-import { ManagedIdentityId } from "../../config/ManagedIdentityId";
+} from "../../error/ManagedIdentityError.js";
+import { ManagedIdentityId } from "../../config/ManagedIdentityId.js";
 
 /**
  * Original source of code: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/identity/Azure.Identity/src/CloudShellManagedIdentitySource.cs
@@ -40,6 +40,13 @@ export class CloudShell extends BaseManagedIdentitySource {
         this.msiEndpoint = msiEndpoint;
     }
 
+    public static getEnvironmentVariables(): Array<string | undefined> {
+        const msiEndpoint: string | undefined =
+            process.env[ManagedIdentityEnvironmentVariableNames.MSI_ENDPOINT];
+
+        return [msiEndpoint];
+    }
+
     public static tryCreate(
         logger: Logger,
         nodeStorage: NodeStorage,
@@ -47,8 +54,7 @@ export class CloudShell extends BaseManagedIdentitySource {
         cryptoProvider: CryptoProvider,
         managedIdentityId: ManagedIdentityId
     ): CloudShell | null {
-        const msiEndpoint: string | undefined =
-            process.env[ManagedIdentityEnvironmentVariableNames.MSI_ENDPOINT];
+        const [msiEndpoint] = CloudShell.getEnvironmentVariables();
 
         // if the msi endpoint environment variable is undefined, this MSI provider is unavailable.
         if (!msiEndpoint) {
