@@ -1,156 +1,209 @@
-const express = require("express"),
-      router  = express.Router({mergeParams: true}),
-      Fault   = require("../models/fault"),
-      Mprn = require("../models/mprn"),
-      Comment = require("../models/comment"),
-      middleware = require("../middleware/middleware");
+// routes/tickets.js
+const express = require("express");
+const router = express.Router({ mergeParams: true });
 
-// CREATE NEW TICKET - GET ROUTE
+const Fault = require("../models/fault");
+const Mprn = require("../models/mprn");
+const Comment = require("../models/comment");
+const middleware = require("../middleware/middleware");
 
+// ------------------------------------------------------
+// CREATE NEW TICKET - GET
+// ------------------------------------------------------
 router.get("/", middleware.isLoggedIn, (req, res) => {
-  res.render("new/newTicket");
+  return res.render("new/newTicket");
 });
 
-// CREATE TICKET WITH MPRN DETAILS - POST ROUTE
-
-router.post("/mprn", middleware.isLoggedIn, (req, res) => {
-
-  var mprnQuery = { 'mprNo': req.body.mprn };
-   // First, ensure no active ticket is 
-  // outstanding againt the chosen MPRN.
-  
-      Fault.where('mprNo', req.body.mprn).where('status', 'Outstanding').exec((err,foundFault) => {
-        if(err){
-          req.flash("error", err.message);
-          res.redirect("/");
-        } else {
-            if(!foundFault.length){
-
-              Mprn.findOne(mprnQuery, (err, foundMprn) => {
-                if (err) {
-                  req.flash("error", "Something went wrong. Please contact the System Administrator");
-                  res.redirect("/tickets/");
-            
-                } else {
-                  if (!foundMprn) {
-                    req.flash("error", "Please enter a valid mprn!");
-                    res.redirect("/tickets/");
-                  } else {
-                    res.render("new/createTicket", { mprn: foundMprn });
-                  }
-                }
-              });
-            } else {
-                  var response = 'An Outstanding Fault Ticket with Reference No: <a href="/search/'+ foundFault[0]._id +'">' + foundFault[0].jobRef + '</a> already exists.'; 
-                  req.flash("error", response);
-                  res.redirect("/tickets/");
-              }
-          }
-      });
-  });
-
-// CREATE NEW TICKET - POST ROUTE
-
-
-router.post("/create", middleware.isLoggedIn, (req, res) => {
-
-  //  The following line of code sanitizes the visit notes section 
-  //  to remove any scripts that a user may inject
-  req.body.faultIssue.text = req.sanitize(req.body.faultIssue.text);
-
-  var dmAuthor = { id: req.user._id, username: req.user.username };
-  var newFault = { mprNo: req.body.mprn, meterRead: req.body.meterRead, 
-                   faultCat: req.body.faultCat, faultIssue: req.body.faultIssue,
-                   appDate: req.body.appDate, dmAuthor: dmAuthor };
-  
-          // Create New Fault Ticket
-  
-          Fault.create(newFault, (err, newFault) => {
-            if (err) {
-              req.flash("error", "Oops, Error Creating New Ticket. Please request assistance from your system administrator.");
-              res.render("/");
-            } else {
-                  var response =  'Fault Ticket Reference SMSDM:  <a href="/search/'+ newFault._id +'">' + newFault.jobRef + '</a> has been successfully created.';
-                  req.flash('success', response);
-                  res.redirect("/");          
-              }
-            });
-        });
-
-  
-
-// EDIT TICKET - POST ROUTE
-
-router.put("/:id", middleware.isLoggedIn, (req, res) => {
-  
-  
-  // Creates the updated Fault Details
-   var updatedData ={};
-   for(var key in req.body.fault){  
-            req.body.fault[key] !== "" ? updatedData[key] = req.body.fault[key] : null;
-   }
-
-  req.body.comment.text = req.sanitize(req.body.comment.text);  // sanitizes the visit notes section to remove any scripts
-
-  // Find & update the correct Fault Ticket
-
-  Fault.findOneAndUpdate({_id: req.params.id}, updatedData, (err, updatedFault) => {
-
-    if (err) {
-      req.flash("error", "An error has occured. No updated have been saved.");
-    } else {
-      // Get latest comment and update
-      if (req.body.comment.text) { // make sure a comment has been added
-        Comment.create(req.body.comment, (err, comment) => {
-          if (err) {
-            req.flash("error", err.message);
-            res.redirect("/");
-          } else {
-            comment.dmAuthor.id = req.user._id;
-            comment.dmAuthor.username = req.user.username;
-            comment.save();
-            console.log(comment);
-            // Push comments to the newly created Fault & Save
-            updatedFault.comments.push(comment);
-            updatedFault.save(); // Save the fault with the fault note referenced
-          }
-        });
-      }
-      // Then, Save mprn details to
-      // capture any changed details such as ADM serial or IMEI
-      
-      var updatedMprnData ={};
-      
-      for(var key in req.body.mprn){  
-            req.body.mprn[key] !== "" ? updatedMprnData[key] = req.body.mprn[key] : null;
-            
-   }
-      Mprn.findOneAndUpdate({mprNo: req.body.mprn.mprNo}, updatedMprnData, (err, updatedMprn) => {
-        if (err) {
-          req.flash("error", err.message);
-          res.redirect("/");
-              } 
-      });
+// ------------------------------------------------------
+// CREATE TICKET WITH MPRN DETAILS - POST (/tickets/mprn)
+// ------------------------------------------------------
+router.post("/mprn", middleware.isLoggedIn, async (req, res) => {
+  try {
+    const rawMprn = (req.body.mprn || "").toString().trim();
+    if (!rawMprn) {
+      req.flash("error", "Please enter a valid MPRN!");
+      return res.redirect("/tickets/");
     }
-        var response =  'Fault Ticket Reference SMSDM:  <a href="/search/'+ req.params.id +'">' + req.body.fault.jobRef + '</a> has been successfully updated.';
-        req.flash('success', response);
-        res.redirect("/"); 
-      });
+
+    const mprnNum = Number(rawMprn);
+    const mprnQuery = { mprNo: Number.isNaN(mprnNum) ? rawMprn : mprnNum };
+
+    // Check for any outstanding ticket on this MPRN
+    const outstanding = await Fault.find({
+      mprNo: mprnQuery.mprNo,
+      status: "Outstanding"
+    }).limit(1);
+
+    if (outstanding.length) {
+      const f = outstanding[0];
+      const response =
+        'An Outstanding Fault Ticket with Reference No: ' +
+        `<a href="/search/${f._id}">${f.jobRef}</a> already exists.`;
+      req.flash("error", response);
+      return res.redirect("/tickets/");
+    }
+
+    // Find the MPRN details to prefill the ticket form
+    const foundMprn = await Mprn.findOne(mprnQuery);
+    if (!foundMprn) {
+      req.flash("error", "Please enter a valid mprn!");
+      return res.redirect("/tickets/");
+    }
+
+    return res.render("new/createTicket", { mprn: foundMprn });
+  } catch (err) {
+    console.error(err);
+    req.flash(
+      "error",
+      "Something went wrong. Please contact the System Administrator"
+    );
+    return res.redirect("/tickets/");
+  }
 });
 
-// DELETE TICKET - POST ROUTE
+// ------------------------------------------------------
+// CREATE NEW TICKET - POST (/tickets/create)
+// ------------------------------------------------------
+router.post("/create", middleware.isLoggedIn, async (req, res) => {
+  try {
+    // sanitize visit notes (faultIssue.text)
+    if (req.body.faultIssue && typeof req.body.faultIssue.text === "string") {
+      req.body.faultIssue.text = req.sanitize(req.body.faultIssue.text);
+    }
 
-router.delete("/:id", middleware.isLoggedIn, (req,res, next) => {
-  
-     Fault.findById({_id: req.params.id}, (err, foundTicket) => {
-       Comment.remove({"_id": {$in: foundTicket.comments}
-         }, (err) => {
-           if(err) return next(err);
-           foundTicket.remove();
-           req.flash("success", "Ticket SMSDM " + foundTicket.jobRef +" successfully removed.");
-           res.redirect("/") ;
-       });
+    const dmAuthor = { id: req.user._id, username: req.user.username };
+
+    const newFaultDoc = {
+      mprNo: req.body.mprn,
+      meterRead: req.body.meterRead,
+      faultCat: req.body.faultCat,
+      faultIssue: req.body.faultIssue,
+      appDate: req.body.appDate,
+      dmAuthor
+    };
+
+    const created = await Fault.create(newFaultDoc);
+
+    const response =
+      'Fault Ticket Reference SMSDM:  ' +
+      `<a href="/search/${created._id}">${created.jobRef}</a> has been successfully created.`;
+    req.flash("success", response);
+    return res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    req.flash(
+      "error",
+      "Oops, Error Creating New Ticket. Please request assistance from your system administrator."
+    );
+    return res.redirect("/");
+  }
+});
+
+// ------------------------------------------------------
+// EDIT/UPDATE TICKET - PUT (/tickets/:id)
+// ------------------------------------------------------
+router.put("/:id", middleware.isLoggedIn, async (req, res) => {
+  try {
+    // Build the update payload from non-empty fields
+    const updatedData = {};
+    if (req.body.fault && typeof req.body.fault === "object") {
+      for (const key of Object.keys(req.body.fault)) {
+        if (req.body.fault[key] !== "") {
+          updatedData[key] = req.body.fault[key];
+        }
+      }
+    }
+
+    // sanitize visit notes in comment, if provided
+    if (req.body.comment && typeof req.body.comment.text === "string") {
+      req.body.comment.text = req.sanitize(req.body.comment.text);
+    }
+
+    // Update the Fault document
+    const updatedFault = await Fault.findByIdAndUpdate(
+      req.params.id,
+      updatedData,
+      { new: true }
+    );
+
+    if (!updatedFault) {
+      req.flash("error", "Ticket not found. No updates saved.");
+      return res.redirect("/");
+    }
+
+    // If there is a new comment, create it and attach to the fault
+    if (req.body.comment && req.body.comment.text) {
+      const comment = await Comment.create({
+        ...req.body.comment,
+        dmAuthor: { id: req.user._id, username: req.user.username }
       });
+
+      updatedFault.comments.push(comment._id);
+      await updatedFault.save();
+    }
+
+    // Update MPRN details if provided
+    if (req.body.mprn && typeof req.body.mprn === "object") {
+      const updatedMprnData = {};
+      for (const key of Object.keys(req.body.mprn)) {
+        if (req.body.mprn[key] !== "") {
+          updatedMprnData[key] = req.body.mprn[key];
+        }
+      }
+      if (Object.keys(updatedMprnData).length > 0 && req.body.mprn.mprNo) {
+        await Mprn.findOneAndUpdate(
+          { mprNo: req.body.mprn.mprNo },
+          updatedMprnData,
+          { new: true }
+        );
+      }
+    }
+
+    const jobRefOut = updatedData.jobRef || updatedFault.jobRef || "Unknown";
+    const response =
+      'Fault Ticket Reference SMSDM:  ' +
+      `<a href="/search/${req.params.id}">${jobRefOut}</a> has been successfully updated.`;
+    req.flash("success", response);
+    return res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    req.flash("error", "An error has occured. No updates have been saved.");
+    return res.redirect("/");
+  }
+});
+
+// ------------------------------------------------------
+// DELETE TICKET - DELETE (/tickets/:id)
+// ------------------------------------------------------
+router.delete("/:id", middleware.isLoggedIn, async (req, res, next) => {
+  try {
+    const foundTicket = await Fault.findById(req.params.id).populate("comments");
+    if (!foundTicket) {
+      req.flash("error", "Ticket not found.");
+      return res.redirect("/");
+    }
+
+    // Remove all associated comments, then the ticket itself
+    const commentIds = (foundTicket.comments || []).map((c) =>
+      typeof c === "object" && c._id ? c._id : c
+    );
+
+    await Promise.all([
+      commentIds.length
+        ? Comment.deleteMany({ _id: { $in: commentIds } })
+        : Promise.resolve(),
+      Fault.findByIdAndDelete(req.params.id)
+    ]);
+
+    req.flash(
+      "success",
+      `Ticket SMSDM ${foundTicket.jobRef} successfully removed.`
+    );
+    return res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
 });
 
 module.exports = router;

@@ -1,73 +1,113 @@
-const   express             =       require("express"),
-        passport            =       require('passport'),
-        router              =       express.Router({mergeParams: true}),
-        User                =       require("../models/user"),
-        middleware          =       require("../middleware/middleware");
-        
-// *** ROUTES ***
+// routes/index.js
 
-// INDEX ROUTE
-    
-router.get("/",  middleware.checkCurrentUser, (req,res) => { // missing 
-    res.render("index");
-}) ;
+const express   = require("express");
+const passport  = require("passport");
+const router    = express.Router({ mergeParams: true });
 
-// LOGIN USER - GET ROUTE
+const User       = require("../models/user");
+const middleware = require("../middleware/middleware");
 
-router.get ("/login", (req,res) => {
-    res.render("index/login");
+// Helper: pick a safe redirect target and clear it
+function consumeReturnTo(req) {
+  const rt = req.session?.returnTo;
+  // Avoid redirecting back to auth pages
+  const disallowed = new Set(["/login", "/register"]);
+  const target = rt && !disallowed.has(rt) ? rt : "/";
+  if (req.session) delete req.session.returnTo;
+  return target;
+}
+
+// ------------------------------------------------------
+// INDEX
+// ------------------------------------------------------
+router.get("/", middleware.checkCurrentUser, (req, res) => {
+  return res.render("index");
 });
 
-// LOGIN USER - POST ROUTE
+// ------------------------------------------------------
+// LOGIN - GET
+// ------------------------------------------------------
+router.get("/login", (req, res) => {
+  return res.render("index/login");
+});
 
+// ------------------------------------------------------
+// LOGIN - POST (uses returnTo when present)
+// ------------------------------------------------------
 router.post("/login", (req, res, next) => {
-     passport.authenticate('local', function(err, user, info) {
-            if (err) { 
-                req.flash("error", "Oops, something went wrong. Please try again!");
-                return next(err); 
-            }
-            if (!user) { 
-                req.flash("error", "Invalid Username or Password.");
-                return res.redirect("/login"); 
-            }
-            req.flash("success", "Welcome " + user.username);
-            req.logIn(user, function(err) {
-                if (err) { 
-                    return next(err); 
-                    
-                }
-            return res.redirect("/");
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      req.flash("error", "Oops, something went wrong. Please try again!");
+      return next(err);
+    }
+    if (!user) {
+      req.flash("error", "Invalid Username or Password.");
+      return res.redirect("/login");
+    }
+
+    req.logIn(user, (loginErr) => {
+      if (loginErr) {
+        req.flash("error", "Login failed. Please try again.");
+        return next(loginErr);
+      }
+      req.flash("success", `Welcome ${user.username}`);
+      const redirectTo = consumeReturnTo(req);
+      return res.redirect(redirectTo);
     });
   })(req, res, next);
-});  
-
-// LOGOUT USER - GET ROUTE
-
-router.get('/logout', middleware.logout, (req, res) => { 
-            res.redirect('/login');
-        });
-
-// REGISTER USER - GET ROUTE
-// router.get("/register", middleware.isLoggedIn, (req,res) => { 
-    router.get("/register", (req,res) => {
-    res.render("index/register"); 
 });
 
-// REGISTER USER - POST ROUTE
+// ------------------------------------------------------
+// LOGOUT - GET
+// ------------------------------------------------------
+router.get("/logout", middleware.logout);
 
-// router.post("/register", middleware.isLoggedIn, (req,res) => { 
-    router.post("/register", (req,res) => { 
-    var newUser = new User({firstName: req.body.firstName, lastName: req.body.lastName, 
-                            username: req.body.username, email: req.body.email, isAdmin: req.body.isAdmin, isManager: req.body.isManager});
-    User.register(newUser, req.body.password, (err, user) => {
-                if(err){
-                    req.flash("error", err.message);
-                    return res.redirect("/register");
-                } else {
-                    req.flash("success", user.username + " account has been successfully created!");
-                    res.redirect("/"); 
-                    }
+// ------------------------------------------------------
+// REGISTER - GET
+// ------------------------------------------------------
+router.get("/register", (req, res) => {
+  return res.render("index/register");
+});
+
+// ------------------------------------------------------
+// REGISTER - POST (auto-login + returnTo)
+// ------------------------------------------------------
+router.post("/register", async (req, res) => {
+  try {
+    const {
+      firstName,
+      lastName,
+      username,
+      email,
+      isAdmin,
+      isManager,
+      password
+    } = req.body;
+
+    const newUser = new User({
+      firstName,
+      lastName,
+      username,
+      email,
+      isAdmin,
+      isManager
     });
+
+    const user = await User.register(newUser, password);
+
+    req.login(user, (err) => {
+      if (err) {
+        req.flash("success", `${user.username} account created! Please log in.`);
+        return res.redirect("/login");
+      }
+      req.flash("success", `${user.username} account has been successfully created!`);
+      const redirectTo = consumeReturnTo(req);
+      return res.redirect(redirectTo);
+    });
+  } catch (err) {
+    req.flash("error", err.message || "Registration failed.");
+    return res.redirect("/register");
+  }
 });
 
 module.exports = router;
